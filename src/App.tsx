@@ -1,25 +1,36 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Routes, Route, useLocation } from "react-router-dom";
+import Home from "pages/Home";
+import Layout from "components/layout/Layout";
+import ProtectedRoute from "components/protectedRoute";
+import { useSelector } from "react-redux";
+import { AuthState } from "redux/slices/authSlice";
+import NotFound from "pages/404";
+import SignIn from "pages/SignIn";
 
 function App() {
+  const location = useLocation();
+  // use the location to determine if the user is logged in
+  const authStore = useSelector((state: AppState) => state.auth as AuthState);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Layout>
+      <Routes location={location}>
+        {/* Accessible to all */}
+        <Route path="/" element={<Home />} />
+
+        {/* Accessible to NOT logged in users */}
+        <Route
+          path="/signIn"
+          element={
+            <ProtectedRoute isAllowed={!authStore.accessToken}>
+              <SignIn />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </Layout>
   );
 }
 
