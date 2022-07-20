@@ -1,5 +1,5 @@
 import { Routes, Route, useLocation } from "react-router-dom";
-import Home from "pages/Home";
+import Home from "pages/Home/Home";
 import Layout from "components/layout/Layout";
 import ProtectedRoute from "components/protectedRoute";
 import { useSelector } from "react-redux";
