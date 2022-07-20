@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
-import { Header } from "./styles";
+import { LayoutStyle } from "./LayoutStyle";
 
 export default function Layout({ children }: { children: ReactNode }) {
-  return <Header>{children}</Header>;
+  return <LayoutStyle>{children}</LayoutStyle>;
 }
