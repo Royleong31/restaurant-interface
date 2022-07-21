@@ -1,4 +1,3 @@
-
 export type FoodItem = {
   name: string;
   description: string;
@@ -23,8 +22,7 @@ export type SubOption = {
   name: string;
   available: boolean;
   price: number;
-}
-
+};
 
 const McSpicySides: Option = {
   name: "Sides",
@@ -89,7 +87,7 @@ const McSpicyRemove: Option = {
   ],
 };
 export const McSpicy: FoodItem = {
-  name: "McSpicyMeal",
+  name: "McSpicy® Meal",
   description: "A spicy, iconic favourite. Made for Singapore since 1999.",
   img: "McSpicyPhoto.png",
   categories: [
@@ -102,10 +100,9 @@ export const McSpicy: FoodItem = {
       order: 3,
     },
   ],
-  basePrice: 9.6,
+  basePrice: 8.6,
   options: [McSpicySides, McSpicyDrinks, McSpicyRemove],
 };
-
 
 export const Categories: Category[] = [
   {
@@ -132,4 +129,4 @@ export const Categories: Category[] = [
     name: "Others",
     order: 6,
   },
-]
+];

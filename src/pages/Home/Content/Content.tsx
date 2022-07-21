@@ -1,6 +1,8 @@
 import React from "react";
 import { ContentStyle } from "./ContentStyle";
 import { McSpicy, FoodItem, Categories } from "DummyData";
+import SectionHeader from "./Section/SectionHeader/SectionHeader";
+import ItemList from "./Section/ItemList/ItemList";
 
 const AllFoodItems: FoodItem[] = [
   McSpicy,
@@ -17,7 +19,7 @@ export default function Content() {
   return (
     <ContentStyle>
       {Categories.map((sectionHeader) => {
-        let foodItemToRender: FoodItem[] = [];
+        const foodItemToRender: FoodItem[] = [];
         AllFoodItems.forEach((foodItem) => {
           foodItem.categories.forEach((foodItemCategory) => {
             if (sectionHeader.name === foodItemCategory.name) {
@@ -32,9 +34,12 @@ export default function Content() {
               <ItemCards cards={foodItemToRender}/>      // 6x McSpicy Cards
             </>
           )
-        */
+        Will render each section per iteration.
+        After mapping through Categories, all sections will be rendered.*/
         return null;
       })}
+      <SectionHeader name={Categories[0].name} />
+      <ItemList items={AllFoodItems} />
     </ContentStyle>
   );
 }
