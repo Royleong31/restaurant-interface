@@ -1,28 +1,4 @@
-export type FoodItem = {
-  name: string;
-  description: string;
-  categories: Category[]; //separate table
-  basePrice: number;
-  img: string;
-  options: Option[];
-};
-export type Category = {
-  name: string;
-  order: number; //arranged from smallest to largest. Recommended first, then appetiser, drinks last.
-};
-export type Option = {
-  name: string;
-  restriction: {
-    min: number;
-    max: number;
-  };
-  subOptions: SubOption[];
-};
-export type SubOption = {
-  name: string;
-  available: boolean;
-  price: number;
-};
+import { Option, FoodItem } from "./DataTypes";
 
 const McSpicySides: Option = {
   name: "Sides",
@@ -103,30 +79,3 @@ export const McSpicy: FoodItem = {
   basePrice: 8.6,
   options: [McSpicySides, McSpicyDrinks, McSpicyRemove],
 };
-
-export const Categories: Category[] = [
-  {
-    name: "Recommended",
-    order: 1,
-  },
-  {
-    name: "Appetiser",
-    order: 2,
-  },
-  {
-    name: "Main",
-    order: 3,
-  },
-  {
-    name: "Dessert",
-    order: 4,
-  },
-  {
-    name: "Drinks",
-    order: 5,
-  },
-  {
-    name: "Others",
-    order: 6,
-  },
-];

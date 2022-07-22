@@ -1,6 +1,9 @@
 import React from "react";
 import { ContentStyle } from "./ContentStyle";
-import { McSpicy, FoodItem, Categories } from "DummyData";
+import { FoodItem, Category } from "DummyData/DataTypes";
+import { McSpicy } from "DummyData/McSpicy";
+import { OvaltineMcFlurry } from "DummyData/OvaltineMcFlurry";
+import { Categories } from "DummyData/Categories";
 import SectionHeader from "./Section/SectionHeader/SectionHeader";
 import ItemList from "./Section/ItemList/ItemList";
 
@@ -11,6 +14,9 @@ const AllFoodItems: FoodItem[] = [
   McSpicy,
   McSpicy,
   McSpicy,
+  OvaltineMcFlurry,
+  OvaltineMcFlurry,
+  OvaltineMcFlurry,
 ];
 
 //trying to render 6 cards of identical McSpicy foodItems. Should be under the "recommended" SectionHeader.
@@ -27,19 +33,19 @@ export default function Content() {
             }
           });
         });
-        /*render Each Section. Recommended -> Appetiser -> ...
-          return (
-            <>
-              <SectionHeader name={sectionHeader.name}/> //"recommended"
-              <ItemCards cards={foodItemToRender}/>      // 6x McSpicy Cards
-            </>
-          )
-        Will render each section per iteration.
-        After mapping through Categories, all sections will be rendered.*/
-        return null;
+
+        return (
+          <>
+            {foodItemToRender.length === 0 || (
+              <SectionHeader name={sectionHeader.name} />
+            )}
+            <ItemList items={foodItemToRender} />
+            {/*Issue with keys here.*/}
+          </>
+        );
       })}
-      <SectionHeader name={Categories[0].name} />
-      <ItemList items={AllFoodItems} />
+      {/* <SectionHeader name={Categories[0].name} />
+      <ItemList items={AllFoodItems} /> */}
     </ContentStyle>
   );
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import { FoodItem } from "../../../../../../DummyData";
+import { FoodItem } from "../../../../../../DummyData/DataTypes";
 import { ItemCardStyle } from "./ItemCardStyle";
 
 type Props = {

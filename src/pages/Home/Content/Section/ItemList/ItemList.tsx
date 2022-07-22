@@ -1,5 +1,5 @@
 import React from "react";
-import { FoodItem } from "../../../../../DummyData";
+import { FoodItem } from "../../../../../DummyData/DataTypes";
 import { ItemListStyle } from "./ItemListStyle";
 import ItemCard from "./ItemCard/ItemCard";
 
@@ -10,12 +10,9 @@ type Props = {
 export default function ItemList({ items }: Props) {
   return (
     <ItemListStyle>
-      {
-        items.map((item) => {
-          return <ItemCard item={item} />;
-        })
-        //Iterates through all of the foodItemToRender, and pass each item as prop to ItemCard.
-      }
+      {items.map((item) => {
+        return <ItemCard item={item} />;
+      })}
     </ItemListStyle>
   );
 }

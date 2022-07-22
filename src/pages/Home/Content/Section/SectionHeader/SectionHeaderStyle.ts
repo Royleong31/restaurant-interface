@@ -1,13 +1,14 @@
 import styled from "styled-components";
 
-export const SectionHeaderStyle = styled.div`
+export const SectionHeaderStyle = styled.section`
   display: flex;
-  align-items: center;
-  height: 5rem;
-  margin-left: 4.6153846vw;
+  align-items: flex-end;
+  height: 6rem;
+  border-top: 0.5rem solid #f7f7f7;
+  margin-top: 2rem;
 
   h3 {
-    margin: 0;
+    margin-left: 4.6153846vw;
     font-size: 1.5rem;
     color: #3a3f43;
     font-weight: 400;

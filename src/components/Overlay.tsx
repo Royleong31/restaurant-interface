@@ -1,0 +1,31 @@
+import React from "react";
+import styled from "styled-components";
+
+type overlayProps = {
+  onCloseModal: React.Dispatch<React.SetStateAction<boolean>>; //sets state modalOpen = false;
+  children: React.ReactNode;
+};
+
+export const BackDropStyle = styled.div`
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 20;
+  background-color: rgba(0, 0, 0, 0.75);
+`;
+
+export default function Overlay({ children, onCloseModal }: overlayProps) {
+  return (
+    <BackDropStyle
+      onClick={() => {
+        onCloseModal(false);
+      }}
+    >
+      {children}
+    </BackDropStyle>
+  );
+}
