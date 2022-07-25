@@ -1,21 +1,16 @@
 import React from "react";
 import { MenuStyle } from "./Menu.style";
 import { DownArrow } from "assets/svgs/index";
+import { onMenuOpen } from "redux/slices/homeSlice";
+import { useDispatch } from "react-redux";
 
-type Prop = {
-  onMenuClick: React.Dispatch<React.SetStateAction<boolean>>;
-};
-
-export default function MenuBox({ onMenuClick }: Prop) {
+export default function MenuBox() {
   //Get state of scroll position to know what is being viewed.
   //{Recommended, Appetiser, Main, Drinks, ...}
+  const dispatch = useDispatch();
 
   return (
-    <MenuStyle
-      onClick={() => {
-        onMenuClick(true);
-      }}
-    >
+    <MenuStyle onClick={() => dispatch(onMenuOpen())}>
       Recommended
       <DownArrow />
     </MenuStyle>
