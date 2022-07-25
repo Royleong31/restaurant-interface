@@ -23,5 +23,3 @@ export type SubOption = {
   available: boolean;
   price: number;
 };
-
-

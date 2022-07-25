@@ -1,5 +1,5 @@
 import React from "react";
-import { Categories } from "../../../DummyData/Categories";
+import { categories } from "../../../DummyData/categories";
 import CategoryLi from "./Category/CategoryLi";
 import { MenuModalStyle } from "./MenuModalStyle";
 
@@ -17,7 +17,7 @@ export default function MenuModal() {
       -Appetiser
       -...
     */
-          Categories.map((category) => {
+          categories.map((category) => {
             return <CategoryLi key={category.order} category={category} />;
           })
         }

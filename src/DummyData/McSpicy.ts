@@ -1,6 +1,6 @@
 import { Option, FoodItem } from "./DataTypes";
 
-const McSpicySides: Option = {
+const mcSpicySides: Option = {
   name: "Sides",
   restriction: {
     min: 1,
@@ -19,7 +19,7 @@ const McSpicySides: Option = {
     },
   ],
 };
-const McSpicyDrinks: Option = {
+const mcSpicyDrinks: Option = {
   name: "Drinks",
   restriction: {
     min: 1,
@@ -38,7 +38,7 @@ const McSpicyDrinks: Option = {
     },
   ],
 };
-const McSpicyRemove: Option = {
+const mcSpicyRemove: Option = {
   name: "Remove From McSpicy",
   restriction: {
     min: 0,
@@ -62,7 +62,7 @@ const McSpicyRemove: Option = {
     },
   ],
 };
-export const McSpicy: FoodItem = {
+export const mcSpicy: FoodItem = {
   name: "McSpicy® Meal",
   description: "A spicy, iconic favourite. Made for Singapore since 1999.",
   img: "McSpicyPhoto.png",
@@ -77,5 +77,5 @@ export const McSpicy: FoodItem = {
     },
   ],
   basePrice: 8.6,
-  options: [McSpicySides, McSpicyDrinks, McSpicyRemove],
+  options: [mcSpicySides, mcSpicyDrinks, mcSpicyRemove],
 };

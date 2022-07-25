@@ -1,6 +1,6 @@
 import { Category } from "./DataTypes";
 
-export const Categories: Category[] = [
+export const categories: Category[] = [
   {
     name: "Recommended",
     order: 1,

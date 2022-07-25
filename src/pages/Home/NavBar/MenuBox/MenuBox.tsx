@@ -1,5 +1,6 @@
 import React from "react";
 import { MenuStyle } from "./MenuStyle";
+import { DownArrow } from "assets/svgs/index";
 
 type Prop = {
   onMenuClick: React.Dispatch<React.SetStateAction<boolean>>;
@@ -16,7 +17,7 @@ export default function MenuBox({ onMenuClick }: Prop) {
       }}
     >
       Recommended
-      <img src="DownArrow.svg" alt="down arrow" />
+      <DownArrow />
     </MenuStyle>
   );
 }

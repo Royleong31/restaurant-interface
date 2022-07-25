@@ -1,22 +1,22 @@
 import React from "react";
 import { ContentStyle } from "./ContentStyle";
 import { FoodItem, Category } from "DummyData/DataTypes";
-import { McSpicy } from "DummyData/McSpicy";
-import { OvaltineMcFlurry } from "DummyData/OvaltineMcFlurry";
-import { Categories } from "DummyData/Categories";
+import { mcSpicy } from "../../../DummyData/mcSpicy";
+import { ovaltineMcFlurry } from "../../../DummyData/ovaltineMcFlurry";
+import { categories } from "../../../DummyData/categories";
 import SectionHeader from "./Section/SectionHeader/SectionHeader";
 import ItemList from "./Section/ItemList/ItemList";
 
 const AllFoodItems: FoodItem[] = [
-  McSpicy,
-  McSpicy,
-  McSpicy,
-  McSpicy,
-  McSpicy,
-  McSpicy,
-  OvaltineMcFlurry,
-  OvaltineMcFlurry,
-  OvaltineMcFlurry,
+  mcSpicy,
+  mcSpicy,
+  mcSpicy,
+  mcSpicy,
+  mcSpicy,
+  mcSpicy,
+  ovaltineMcFlurry,
+  ovaltineMcFlurry,
+  ovaltineMcFlurry,
 ];
 
 //trying to render 6 cards of identical McSpicy foodItems. Should be under the "recommended" SectionHeader.
@@ -24,7 +24,7 @@ const AllFoodItems: FoodItem[] = [
 export default function Content() {
   return (
     <ContentStyle>
-      {Categories.map((sectionHeader) => {
+      {categories.map((sectionHeader) => {
         const foodItemToRender: FoodItem[] = [];
         AllFoodItems.forEach((foodItem) => {
           foodItem.categories.forEach((foodItemCategory) => {

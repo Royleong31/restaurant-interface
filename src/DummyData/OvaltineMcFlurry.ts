@@ -1,6 +1,6 @@
 import { FoodItem } from "./DataTypes";
 
-export const OvaltineMcFlurry: FoodItem = {
+export const ovaltineMcFlurry: FoodItem = {
   name: "Ovaltine® McFlurry®",
   description:
     "A new, refreshing take on a well loved malty drink!\nEnjoy the rich taste of Ovaltine in every bite of creamy vanilla soft-serve ice-cream.",
