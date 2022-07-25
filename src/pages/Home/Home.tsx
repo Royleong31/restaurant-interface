@@ -3,7 +3,7 @@ import LogoBar from "components/LogoBar";
 import NavBar from "./NavBar/NavBar";
 import Content from "./Content/Content";
 import Menu from "./Menu/Menu";
-import { HomeStyle } from "./HomeStyle";
+import { HomeStyle } from "./Home.style";
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);

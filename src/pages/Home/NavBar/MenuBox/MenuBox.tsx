@@ -1,5 +1,5 @@
 import React from "react";
-import { MenuStyle } from "./MenuStyle";
+import { MenuStyle } from "./Menu.style";
 import { DownArrow } from "assets/svgs/index";
 
 type Prop = {

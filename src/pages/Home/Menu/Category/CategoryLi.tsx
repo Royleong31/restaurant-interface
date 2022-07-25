@@ -1,6 +1,6 @@
 import { Category } from "DummyData/DataTypes";
 import React from "react";
-import { CategoryLiStyle } from "./CategoryLiStyle";
+import { CategoryLiStyle } from "./CategoryLi.style";
 
 type Props = {
   category: Category;

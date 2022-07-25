@@ -1,5 +1,5 @@
 import React from "react";
-import { SearchBoxStyle } from "./SearchBoxStyle";
+import { SearchBoxStyle } from "./SearchBox.style";
 import { SearchIcon } from "assets/svgs/index";
 
 export default function SearchBox() {

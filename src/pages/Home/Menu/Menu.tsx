@@ -1,6 +1,6 @@
 import React from "react";
 import Overlay from "../../../components/Overlay";
-import MenuModal from "./MenuModal";
+import MenuModal from "./MenuModal/MenuModal";
 
 type Props = {
   onCloseMenu: React.Dispatch<React.SetStateAction<boolean>>;
@@ -8,8 +8,9 @@ type Props = {
 
 export default function Menu({ onCloseMenu }: Props) {
   return (
-    <Overlay onCloseModal={onCloseMenu}>
+    <>
       <MenuModal />
-    </Overlay>
+      <Overlay onCloseModal={onCloseMenu} />
+    </>
   );
 }

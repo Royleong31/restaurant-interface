@@ -1,5 +1,5 @@
 import React from "react";
-import { NavBarStyle } from "./NavBarStyle";
+import { NavBarStyle } from "./NavBar.style";
 import MenuBox from "./MenuBox/MenuBox";
 import SearchBox from "./SearchBox/SearchBox";
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { ContentStyle } from "./ContentStyle";
+import { ContentStyle } from "./Content.style";
 import { FoodItem, Category } from "DummyData/DataTypes";
 import { mcSpicy } from "../../../DummyData/mcSpicy";
 import { ovaltineMcFlurry } from "../../../DummyData/ovaltineMcFlurry";

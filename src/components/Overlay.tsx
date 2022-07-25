@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 type overlayProps = {
   onCloseModal: React.Dispatch<React.SetStateAction<boolean>>; //sets state modalOpen = false;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 };
 
 export const BackDropStyle = styled.div`
@@ -14,7 +14,7 @@ export const BackDropStyle = styled.div`
   right: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 20;
+  /* z-index: 20; */
   background-color: rgba(0, 0, 0, 0.75);
 `;
 

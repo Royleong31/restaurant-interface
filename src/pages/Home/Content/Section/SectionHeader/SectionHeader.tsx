@@ -1,5 +1,5 @@
 import React from "react";
-import { SectionHeaderStyle } from "./SectionHeaderStyle";
+import { SectionHeaderStyle } from "./SectionHeader.style";
 
 type Props = {
   name: string;
