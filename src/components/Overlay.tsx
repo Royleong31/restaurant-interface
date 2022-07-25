@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 type overlayProps = {
-  onCloseModal: React.Dispatch<React.SetStateAction<boolean>>; //sets state modalOpen = false;
+  onCloseModal: () => void;
   children?: React.ReactNode;
 };
 
@@ -14,18 +14,9 @@ export const BackDropStyle = styled.div`
   right: 0;
   width: 100vw;
   height: 100vh;
-  /* z-index: 20; */
   background-color: rgba(0, 0, 0, 0.75);
 `;
 
 export default function Overlay({ children, onCloseModal }: overlayProps) {
-  return (
-    <BackDropStyle
-      onClick={() => {
-        onCloseModal(false);
-      }}
-    >
-      {children}
-    </BackDropStyle>
-  );
+  return <BackDropStyle onClick={onCloseModal}>{children}</BackDropStyle>;
 }

@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { AuthState } from "redux/slices/authSlice";
 import NotFound from "pages/404";
 import SignIn from "pages/SignIn";
+import HomeProvider from "redux/HomeContext/HomeProvider";
 
 function App() {
   const location = useLocation();
@@ -16,7 +17,14 @@ function App() {
     <Layout>
       <Routes location={location}>
         {/* Accessible to all */}
-        <Route path="/" element={<Home />} />
+        <Route
+          path="/"
+          element={
+            <HomeProvider>
+              <Home />
+            </HomeProvider>
+          }
+        />
 
         {/* Accessible to NOT logged in users */}
         <Route

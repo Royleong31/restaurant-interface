@@ -1,18 +1,17 @@
-import { useState } from "react";
+import { useContext } from "react";
 import LogoBar from "components/LogoBar";
 import NavBar from "./NavBar/NavBar";
 import Content from "./Content/Content";
 import Menu from "./Menu/Menu";
 import { HomeStyle } from "./Home.style";
-import { useSelector } from "react-redux";
-import { RootState } from "redux/store";
+import HomeContext from "redux/HomeContext/HomeContext";
 
 export default function Home() {
-  const menuOpen = useSelector((state: RootState) => state.home.menuShow);
+  const homeContext = useContext(HomeContext);
   return (
     <>
-      {menuOpen && <Menu />}
-      <HomeStyle menuOpen={menuOpen}>
+      {homeContext.homeState.menuShow && <Menu />}
+      <HomeStyle menuOpen={homeContext.homeState.menuShow}>
         <LogoBar />
         <NavBar />
         <Content />

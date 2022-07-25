@@ -19,8 +19,6 @@ const AllFoodItems: FoodItem[] = [
   ovaltineMcFlurry,
 ];
 
-//trying to render 6 cards of identical McSpicy foodItems. Should be under the "recommended" SectionHeader.
-//McSpicy would appear both under "Recommended" and "Main Course". FoodItem can have more than one category.
 export default function Content() {
   return (
     <ContentStyle>

@@ -1,15 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import Overlay from "../../../components/Overlay";
 import MenuModal from "./MenuModal/MenuModal";
-import { useDispatch } from "react-redux";
-import { onMenuClose } from "redux/slices/homeSlice";
+import HomeContext from "redux/HomeContext/HomeContext";
 
 export default function Menu() {
-  const dispatch = useDispatch();
+  const homeContext = useContext(HomeContext);
   return (
     <>
       <MenuModal />
-      <Overlay onCloseModal={() => dispatch(onMenuClose())} />
+      <Overlay onCloseModal={homeContext.onMenuClose} />
       {/* Passing as prop so that Overlay can be re-used. */}
     </>
   );

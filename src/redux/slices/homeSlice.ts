@@ -25,7 +25,7 @@ const initialState: HomeState = {
   orderHistoryExists: false,
 };
 
-const authSlice = createSlice({
+const homeSlice = createSlice({
   name: "home",
   initialState,
   reducers: {
@@ -90,6 +90,6 @@ export const {
   onBasketNotEmpty,
   onBasketEmpty,
   onNewOrder,
-} = authSlice.actions;
+} = homeSlice.actions;
 
-export default authSlice.reducer;
+export default homeSlice.reducer;
