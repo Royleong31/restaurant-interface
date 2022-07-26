@@ -4,14 +4,14 @@ import { ItemListStyle } from "./ItemList.style";
 import ItemCard from "./ItemCard/ItemCard";
 
 type Props = {
-  items: FoodItem[];
+  items: { foodItem: FoodItem; index: number }[];
 };
 
 export default function ItemList({ items }: Props) {
   return (
     <ItemListStyle>
       {items.map((item) => {
-        return <ItemCard item={item} />;
+        return <ItemCard item={item.foodItem} key={item.index} />;
       })}
     </ItemListStyle>
   );

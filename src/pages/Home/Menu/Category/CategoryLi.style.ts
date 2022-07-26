@@ -8,8 +8,9 @@ export const CategoryLiStyle = styled.li`
   width: 91.3%;
   height: 3.6875rem;
   margin: auto;
-
-  :not(&:last-child) {
-    border-bottom: 0.0625rem solid #e8e8e8;
+  border-bottom: 0.0625rem solid #e8e8e8;
+  &:last-child {
+    border-bottom: unset;
+    margin-bottom: 1.25rem;
   }
 `;

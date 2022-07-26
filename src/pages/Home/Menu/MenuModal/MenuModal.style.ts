@@ -8,8 +8,17 @@ export const MenuModalStyle = styled.div`
   min-height: 40vh;
   max-height: 80vh;
   width: 100vw;
-  z-index: 1;
+  z-index: 20;
+  animation: fly-up cubic-bezier(0.18, 0.99, 0.74, 1) 0.3s;
 
+  @keyframes fly-up {
+    0% {
+      transform: translateY(100vh);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
   ul {
     padding: 0;
     margin: 0;

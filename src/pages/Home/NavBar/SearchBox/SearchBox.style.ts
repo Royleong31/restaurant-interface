@@ -9,7 +9,8 @@ export const SearchBoxStyle = styled.div`
   gap: 0.5rem;
   padding-left: 0.9375rem;
   border-radius: 3.125rem;
-  background-color: #F5F6FA;
+  background-color: #f5f6fa;
   height: inherit;
   width: 6.125rem;
-`
+  cursor: text;
+`;

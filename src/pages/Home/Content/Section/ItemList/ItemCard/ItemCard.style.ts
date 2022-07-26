@@ -14,5 +14,8 @@ export const ItemCardStyle = styled.div`
     font-size: 1rem;
     color: #111b24;
     margin: 0;
+    &:first-child {
+      margin: 0 0 0.25rem 0;
+    }
   }
 `;

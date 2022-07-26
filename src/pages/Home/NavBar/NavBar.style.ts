@@ -8,4 +8,4 @@ export const NavBarStyle = styled.div`
   height: 2.1875rem;
   padding-left: 0.5625rem;
   padding-right: 0.5625rem;
-`
+`;
