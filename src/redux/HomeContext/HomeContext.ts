@@ -1,4 +1,4 @@
-import { categories } from "DummyData/categories";
+import { categories } from "DummyData/Categories";
 import React from "react";
 
 export type HomeState = {

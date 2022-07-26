@@ -1,5 +1,5 @@
 import React from "react";
-import { categories } from "../../../../DummyData/categories";
+import { categories } from "DummyData/Categories";
 import CategoryLi from "../Category/CategoryLi";
 import { MenuModalStyle } from "./MenuModal.style";
 import { MenuHandleStyle } from "./MenuHandle.style";

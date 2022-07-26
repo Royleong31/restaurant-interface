@@ -3,10 +3,9 @@ import { ContentStyle } from "./Content.style";
 import { FoodItem, Category } from "DummyData/DataTypes";
 import { mcSpicy } from "../../../DummyData/McSpicy";
 import { ovaltineMcFlurry } from "../../../DummyData/OvaltineMcFlurry";
-import { categories } from "../../../DummyData/categories";
+import { categories } from "../../../DummyData/Categories";
 import SectionHeader from "./Section/SectionHeader/SectionHeader";
 import ItemList from "./Section/ItemList/ItemList";
-import { isContinueStatement } from "typescript";
 
 const AllFoodItems: FoodItem[] = [
   mcSpicy,
