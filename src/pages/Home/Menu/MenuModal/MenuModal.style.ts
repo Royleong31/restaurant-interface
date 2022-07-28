@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const MenuModalStyle = styled.div`
-  position: absolute;
+  position: fixed;
   border-radius: 0.5rem 0.5rem 0 0;
   bottom: 0;
   background-color: white;

@@ -12,6 +12,10 @@ export const GlobalStyles = createGlobalStyle`
     font-size: 1rem;
     box-sizing: border-box;
   }
+  .stopBodyScroll{
+    height: 100%;
+    overflow: hidden;
+  }
   *, *::before, *::after {
     box-sizing: inherit;
   }
