@@ -1,24 +1,26 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import LogoBar from "components/LogoBar";
 import NavBar from "./NavBar/NavBar";
 import Content from "./Content/Content";
 import Menu from "./Menu/Menu";
-import { HomeStyle } from "./Home.style";
-import HomeContext from "redux/HomeContext/HomeContext";
 import { HomeHeaderStyle } from "./HomeHeader.style";
+import { categories } from "DummyData/Categories";
 
 export default function Home() {
-  const homeContext = useContext(HomeContext);
+  const [menuShow, setMenuShow] = useState(false);
+  const [searchShow, setSearchShow] = useState(false);
+  const [basketShow, setBasketShow] = useState(false);
+  const [orderHistoryShow, setOrderHistoryShow] = useState(false);
+  const [activeCategory, setActiveCategory] = useState(categories[0].name);
+
   return (
     <>
-      {homeContext.homeState.menuShow && <Menu />}
-      <HomeStyle menuOpen={homeContext.homeState.menuShow}>
-        <HomeHeaderStyle>
-          <LogoBar />
-          <NavBar />
-        </HomeHeaderStyle>
-        <Content />
-      </HomeStyle>
+      {menuShow && <Menu onOverlayClick={setMenuShow} />}
+      <HomeHeaderStyle>
+        <LogoBar />
+        <NavBar menuClickHandler={setMenuShow} activeCategory={activeCategory}/>
+      </HomeHeaderStyle>
+      <Content />
     </>
   );
 }

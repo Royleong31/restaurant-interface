@@ -1,13 +1,25 @@
-import React from "react";
 import { NavBarStyle } from "./NavBar.style";
-import MenuBox from "./MenuBox/MenuBox";
-import SearchBox from "./SearchBox/SearchBox";
+import { MenuStyle } from "./Menu.style";
+import { DownArrow } from "assets/svgs/index";
+import { SearchBoxStyle, InputStyled } from "./Search.style";
+import { SearchIcon } from "assets/svgs/index";
 
-export default function NavBar() {
+type Props = {
+  menuClickHandler: React.Dispatch<React.SetStateAction<boolean>>;
+  activeCategory: string;
+};
+
+export default function NavBar({ menuClickHandler, activeCategory }: Props) {
   return (
     <NavBarStyle>
-      <MenuBox />
-      <SearchBox />
+      <MenuStyle onClick={() => menuClickHandler(true)}>
+        {activeCategory}
+        <DownArrow />
+      </MenuStyle>
+      <SearchBoxStyle>
+        <SearchIcon />
+        <InputStyled type={"search"} placeholder="Search" disabled />
+      </SearchBoxStyle>
     </NavBarStyle>
   );
 }

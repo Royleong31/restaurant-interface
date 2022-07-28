@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 
-type overlayProps = {
-  onCloseModal: () => void;
+type Props = {
+  onCloseModal: React.Dispatch<React.SetStateAction<boolean>> | (() => void);
   children?: React.ReactNode;
 };
 
@@ -38,11 +38,15 @@ function startScroll(): void {
   body.classList.remove("stopBodyScroll"); //remove stopScroll class whenever overlay is dismounted
 }
 
-export default function Overlay({ children, onCloseModal }: overlayProps) {
+export default function Overlay({ children, onCloseModal }: Props) {
   useEffect(() => {
     stopScroll();
   }, []);
   useEffect(() => () => startScroll(), []);
 
-  return <BackDropStyle onClick={onCloseModal}>{children}</BackDropStyle>;
+  return (
+    <BackDropStyle onClick={() => onCloseModal(false)}>
+      {children}
+    </BackDropStyle>
+  );
 }

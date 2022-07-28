@@ -1,18 +1,19 @@
-import React, { useContext } from "react";
 import ReactDOM from "react-dom";
 import Overlay from "../../../components/Overlay";
 import MenuModal from "./MenuModal/MenuModal";
-import HomeContext from "redux/HomeContext/HomeContext";
+
+type Props = {
+  onOverlayClick: React.Dispatch<React.SetStateAction<boolean>>;
+};
 
 const portalElement = document.getElementById("overlays") || new Element();
 
-export default function Menu() {
-  const homeContext = useContext(HomeContext);
+export default function Menu({ onOverlayClick }: Props) {
   return (
     <>
       {ReactDOM.createPortal(<MenuModal />, portalElement)}
       {ReactDOM.createPortal(
-        <Overlay onCloseModal={homeContext.onMenuClose} />,
+        <Overlay onCloseModal={onOverlayClick} />,
         portalElement
       )}
     </>
