@@ -11,6 +11,22 @@ export const SearchBoxStyle = styled.div`
   border-radius: 3.125rem;
   background-color: #f5f6fa;
   height: inherit;
-  width: 6.125rem;
   cursor: text;
+`;
+
+export const InputStyled = styled.input`
+  border: none;
+  background-color: #f5f6fa;
+  font-family: "Roboto", sans-serif;
+  font-size: 1rem;
+  padding: 0;
+  width: 4rem;
+  &:focus {
+    outline: none;
+  }
+  ::placeholder {
+    color: black;
+    padding: none;
+    margin: none;
+  }
 `;

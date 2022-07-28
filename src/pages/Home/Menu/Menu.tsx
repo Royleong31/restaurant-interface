@@ -9,7 +9,6 @@ export default function Menu() {
     <>
       <MenuModal />
       <Overlay onCloseModal={homeContext.onMenuClose} />
-      {/* Passing as prop so that Overlay can be re-used. */}
     </>
   );
 }
