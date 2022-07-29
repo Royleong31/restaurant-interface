@@ -7,22 +7,7 @@ import { categories } from "../../../DummyData/Categories";
 import { SectionHeaderStyle } from "./SectionHeader.style";
 import ItemList from "./Section/ItemList/ItemList";
 
-type Props = {
-  setActiveCategory: React.Dispatch<
-    React.SetStateAction<{
-      category: string;
-      offsetY: number;
-    }>
-  >;
-  setCategories: React.Dispatch<
-    React.SetStateAction<
-      {
-        category: string;
-        offsetY: number;
-      }[]
-    >
-  >;
-};
+type Props = {};
 
 const AllFoodItems: FoodItem[] = [
   mcSpicy,
@@ -36,39 +21,43 @@ const AllFoodItems: FoodItem[] = [
   ovaltineMcFlurry,
 ];
 
-export default function Content({ setActiveCategory, setCategories }: Props) {
-  let toRenderSectionAndFoodItems: React.ReactElement[] = []; //This variable is returned.
+const Content = React.forwardRef<HTMLDivElement, Props>(
+  ({}: Props, ref: React.ForwardedRef<HTMLDivElement>) => {
+    let toRenderSectionAndFoodItems: React.ReactNode[] = []; //This variable is returned.
 
-  categories.forEach((sectionHeader, indexOuter) => {
-    const foodItemToRender: { foodItem: FoodItem; index: number }[] = []; //foodItems for each section.
+    categories.forEach((sectionHeader, indexOuter) => {
+      const foodItemToRender: { foodItem: FoodItem; index: number }[] = []; //foodItems for each section.
 
-    //check if foodItem category matches currentCategory, then add to foodItemToRender.
-    AllFoodItems.forEach((foodItem, indexInner) => {
-      foodItem.categories.forEach((foodItemCategory) => {
-        if (sectionHeader.name === foodItemCategory.name) {
-          foodItemToRender.push({
-            foodItem: foodItem,
-            index: indexOuter * 10 + indexInner,
-          });
-        }
+      //check if foodItem category matches currentCategory, then add to foodItemToRender.
+      AllFoodItems.forEach((foodItem, indexInner) => {
+        foodItem.categories.forEach((foodItemCategory) => {
+          if (sectionHeader.name === foodItemCategory.name) {
+            foodItemToRender.push({
+              foodItem: foodItem,
+              index: indexOuter * 10 + indexInner,
+            });
+          }
+        });
       });
+
+      if (foodItemToRender.length !== 0) {
+        //Add to sectionName and sectionScrollPosition to variable.
+
+        //Add to return variable
+        toRenderSectionAndFoodItems.push(
+          <SectionHeaderStyle
+            className={"FoodCategorySectionHeader"}
+            key={sectionHeader.name}
+          >
+            <h3>{sectionHeader.name}</h3>
+          </SectionHeaderStyle>,
+          <ItemList items={foodItemToRender} key={indexOuter} />
+        );
+      }
     });
 
-    if (foodItemToRender.length !== 0) {
-      //Add to sectionName and sectionScrollPosition to variable.
+    return <ContentStyle ref={ref}>{toRenderSectionAndFoodItems}</ContentStyle>;
+  }
+);
 
-      //Add to return variable
-      toRenderSectionAndFoodItems.push(
-        <SectionHeaderStyle
-          className={"FoodCategorySectionHeader"}
-          key={sectionHeader.name}
-        >
-          <h3>{sectionHeader.name}</h3>
-        </SectionHeaderStyle>,
-        <ItemList items={foodItemToRender} key={indexOuter} />
-      );
-    }
-  });
-
-  return <ContentStyle>{toRenderSectionAndFoodItems}</ContentStyle>;
-}
+export default Content;
