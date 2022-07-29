@@ -5,7 +5,7 @@ export const MenuModalStyle = styled.div`
   border-radius: 0.5rem 0.5rem 0 0;
   bottom: 0;
   background-color: white;
-  min-height: 40vh;
+  min-height: 50vh;
   max-height: 80vh;
   width: 100vw;
   z-index: 20;

@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export const ContentStyle = styled.div`
+  margin-bottom: 16rem;
   section:first-child {
     height: 3.5rem;
     align-items: flex-start;

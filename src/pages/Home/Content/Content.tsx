@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { ContentStyle } from "./Content.style";
 import { FoodItem, Category } from "DummyData/DataTypes";
 import { mcSpicy } from "../../../DummyData/McSpicy";
@@ -8,10 +8,20 @@ import { SectionHeaderStyle } from "./SectionHeader.style";
 import ItemList from "./Section/ItemList/ItemList";
 
 type Props = {
-  onCategoryLoad: (categoryAndPosition: {
-    category: string;
-    offsetY: number;
-  }[]) => void;
+  setActiveCategory: React.Dispatch<
+    React.SetStateAction<{
+      category: string;
+      offsetY: number;
+    }>
+  >;
+  setCategories: React.Dispatch<
+    React.SetStateAction<
+      {
+        category: string;
+        offsetY: number;
+      }[]
+    >
+  >;
 };
 
 const AllFoodItems: FoodItem[] = [
@@ -26,12 +36,13 @@ const AllFoodItems: FoodItem[] = [
   ovaltineMcFlurry,
 ];
 
-export default function Content({ onCategoryLoad }: Props) {
-  let toRenderSectionAndFoodItems: React.ReactElement[] = [];
-  let categoryAndPosition: { category: string; offsetY: number }[] = [];
+export default function Content({ setActiveCategory, setCategories }: Props) {
+  let toRenderSectionAndFoodItems: React.ReactElement[] = []; //This variable is returned.
 
   categories.forEach((sectionHeader, indexOuter) => {
-    const foodItemToRender: { foodItem: FoodItem; index: number }[] = [];
+    const foodItemToRender: { foodItem: FoodItem; index: number }[] = []; //foodItems for each section.
+
+    //check if foodItem category matches currentCategory, then add to foodItemToRender.
     AllFoodItems.forEach((foodItem, indexInner) => {
       foodItem.categories.forEach((foodItemCategory) => {
         if (sectionHeader.name === foodItemCategory.name) {
@@ -44,16 +55,12 @@ export default function Content({ onCategoryLoad }: Props) {
     });
 
     if (foodItemToRender.length !== 0) {
-      categoryAndPosition.push({
-        category: sectionHeader.name,
-        offsetY:
-          document
-            .getElementsByClassName(sectionHeader.name)[0]
-            .getBoundingClientRect().top + window.scrollY,
-      });
+      //Add to sectionName and sectionScrollPosition to variable.
+
+      //Add to return variable
       toRenderSectionAndFoodItems.push(
         <SectionHeaderStyle
-          className={sectionHeader.name}
+          className={"FoodCategorySectionHeader"}
           key={sectionHeader.name}
         >
           <h3>{sectionHeader.name}</h3>
