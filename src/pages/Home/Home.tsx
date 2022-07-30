@@ -11,6 +11,7 @@ export type CategoryPosition = {
 };
 
 export const HEADER_HEIGHT = 119;
+export const BORDER_TOP_WIDTH = 8;
 
 export default function Home() {
   // TODO: Future implementation
@@ -41,9 +42,10 @@ export default function Home() {
       const length = SectionElements?.length ? SectionElements.length : 0;
 
       for (let i = 0; i < length; i++) {
-        const offsetY =
+        let offsetY =
           (SectionElements?.item(i)?.getBoundingClientRect().top as number) +
           window.scrollY;
+        if (i !== 0) offsetY += BORDER_TOP_WIDTH;
         const categoryName = SectionElements?.item(i)?.firstChild
           ?.textContent as string;
         categoryAndPosition.push({ name: categoryName, offsetY: offsetY });
@@ -64,6 +66,7 @@ export default function Home() {
 
     let activeIndex = -1;
 
+    //binary search would be better
     categories.forEach((category) => {
       if (scrollPosition >= category.offsetY - HEADER_HEIGHT) {
         activeIndex++;

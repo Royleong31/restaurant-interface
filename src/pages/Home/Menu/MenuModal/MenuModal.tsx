@@ -17,9 +17,9 @@ export default function MenuModal({
 }: Props) {
   /*categoryClickHandler
     click occurs
-    1. activeCategory set to the category that is clicked
-    2. menuModal closed
-    3. scroll to the category position
+    1. menuModal closed
+    2. scroll to the category position
+    3. Active category is automatically updated by scroll position useEffect.
   */
 
   const categoryClickHandler = (

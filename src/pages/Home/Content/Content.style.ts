@@ -16,6 +16,8 @@ export const ContentStyle = styled.div`
   }
 
   .FoodItemList:last-child {
-    min-height: calc(100vh - 6rem - 7.4375rem);
+    min-height: calc(
+      100vh - 6rem - 7.4375rem + 0.5rem
+    ); //- height of section, - height of header - height of border
   }
 `;

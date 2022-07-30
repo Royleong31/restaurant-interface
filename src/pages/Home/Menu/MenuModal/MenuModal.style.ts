@@ -25,8 +25,6 @@ export const MenuModalStyle = styled.div`
     margin-top: 1.25rem;
     height: fit-content;
     max-height: 70vh;
-    overflow: hidden;
-    overflow-y: scroll;
   }
   .activeCategory {
     color: #1c6dc9;
