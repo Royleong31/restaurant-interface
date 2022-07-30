@@ -1,8 +1,11 @@
 import { useState, useEffect, useRef } from "react";
+import ReactDOM from "react-dom";
+import { useTransition, animated, config } from "react-spring";
 import LogoBar from "components/LogoBar";
 import NavBar from "./NavBar/NavBar";
 import Content from "./Content/Content";
-import Menu from "./Menu/Menu";
+import Overlay from "components/Overlay";
+import MenuModal from "./Menu/MenuModal";
 import { HomeHeaderStyle } from "./HomeHeader.style";
 
 export type CategoryPosition = {
@@ -77,15 +80,59 @@ export default function Home() {
     setActiveCategory(categories[activeIndex].name);
   }, [scrollPosition, categories]);
 
+  const portalElement = document.getElementById("overlays") || new Element();
+
+  const menuModalTransition = useTransition(menuShow, {
+    from: { transform: "translateY(100vh)" },
+    enter: { transform: "translateY(0vh)" },
+    leave: { transform: "translateY(100vh)" },
+    config: {
+      mass: 0.5,
+      tension: 155,
+      friction: 18,
+      velocity: 0.01,
+    },
+  });
+  const overlayTransition = useTransition(menuShow, {
+    from: { opacity: 0 },
+    enter: { opacity: 1 },
+    leave: { opacity: 0 },
+    config: {
+      mass: 0.5,
+      tension: 155,
+      friction: 18,
+      velocity: 0.01,
+    },
+  });
+
   return (
     <>
-      {menuShow && (
-        <Menu
-          categories={categories}
-          activeCategory={activeCategory}
-          onOverlayClick={setMenuShow}
-          onCategoryListClick={setActiveCategory}
-        />
+      {menuModalTransition(
+        (styles, menuShow) =>
+          menuShow && (
+            <>
+              {ReactDOM.createPortal(
+                <MenuModal
+                  categories={categories}
+                  activeCategory={activeCategory}
+                  onOverlayClick={setMenuShow}
+                  style={styles}
+                />,
+                portalElement
+              )}
+            </>
+          )
+      )}
+      {overlayTransition(
+        (styles, menuShow) =>
+          menuShow && (
+            <>
+              {ReactDOM.createPortal(
+                <Overlay onCloseModal={setMenuShow} style={styles} />,
+                portalElement
+              )}
+            </>
+          )
       )}
       <HomeHeaderStyle>
         <LogoBar />

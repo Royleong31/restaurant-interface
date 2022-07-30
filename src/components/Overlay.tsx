@@ -1,12 +1,16 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
+import { SpringValue, animated } from "react-spring";
 
 type Props = {
   onCloseModal: React.Dispatch<React.SetStateAction<boolean>> | (() => void);
   children?: React.ReactNode;
+  style: {
+    opacity: SpringValue<number>;
+  };
 };
 
-export const BackDropStyle = styled.div`
+export const BackDropStyle = styled(animated.div)`
   position: fixed;
   top: 0;
   bottom: 0;
@@ -16,16 +20,6 @@ export const BackDropStyle = styled.div`
   height: 100%;
   z-index: 10;
   background-color: rgba(0, 0, 0, 0.75);
-  animation: dissolve-in cubic-bezier(0.18, 0.99, 0.74, 1) 0.3s;
-
-  @keyframes dissolve-in {
-    0% {
-      background-color: rgba(0, 0, 0, 0);
-    }
-    100% {
-      background-color: rgba(0, 0, 0, 0.75);
-    }
-  }
 `;
 
 function stopScroll(): void {
@@ -38,14 +32,14 @@ function startScroll(): void {
   body.classList.remove("stopBodyScroll"); //remove stopScroll class whenever overlay is dismounted
 }
 
-export default function Overlay({ children, onCloseModal }: Props) {
+export default function Overlay({ children, onCloseModal, style }: Props) {
   useEffect(() => {
     stopScroll();
   }, []);
   useEffect(() => () => startScroll(), []);
 
   return (
-    <BackDropStyle onClick={() => onCloseModal(false)}>
+    <BackDropStyle style={style} onClick={() => onCloseModal(false)}>
       {children}
     </BackDropStyle>
   );

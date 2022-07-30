@@ -2,18 +2,23 @@ import React from "react";
 import { MenuModalStyle } from "./MenuModal.style";
 import { MenuHandleStyle } from "./MenuHandle.style";
 import { CategoryLiStyle } from "./CategoryLi.style";
-import { CategoryPosition, HEADER_HEIGHT } from "../../Home";
+import { CategoryPosition, HEADER_HEIGHT } from "../Home";
+import { SpringValue } from "react-spring";
 
 type Props = {
   categories: CategoryPosition[];
   activeCategory: string;
   onOverlayClick: React.Dispatch<React.SetStateAction<boolean>>;
+  style: {
+    transform: SpringValue<string>;
+  };
 };
 
 export default function MenuModal({
   categories,
   activeCategory,
   onOverlayClick,
+  style,
 }: Props) {
   /*categoryClickHandler
     click occurs
@@ -37,7 +42,7 @@ export default function MenuModal({
   };
 
   return (
-    <MenuModalStyle>
+    <MenuModalStyle style={style}>
       <MenuHandleStyle />
       <ul>
         {categories.map((category) => {

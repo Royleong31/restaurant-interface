@@ -1,24 +1,15 @@
 import styled from "styled-components";
+import { animated } from "react-spring";
 
-export const MenuModalStyle = styled.div`
+export const MenuModalStyle = styled(animated.div)`
   position: fixed;
   border-radius: 0.5rem 0.5rem 0 0;
-  bottom: 0;
+  bottom: -5rem;
   background-color: white;
-  min-height: 50vh;
-  max-height: 80vh;
+  min-height: calc(50vh + 5rem);
+  max-height: calc(80vh + 5rem);
   width: 100vw;
   z-index: 20;
-  animation: fly-up cubic-bezier(0.18, 0.99, 0.74, 1) 0.3s;
-
-  @keyframes fly-up {
-    0% {
-      transform: translateY(100vh);
-    }
-    100% {
-      transform: translateY(0);
-    }
-  }
   ul {
     padding: 0;
     margin: 0;
