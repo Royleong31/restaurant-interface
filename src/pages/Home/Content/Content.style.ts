@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const ContentStyle = styled.div`
-  margin-bottom: 16rem;
+  /* margin-bottom: 16rem; */
   section:first-child {
     height: 3.5rem;
     align-items: flex-start;
@@ -13,5 +13,9 @@ export const ContentStyle = styled.div`
       color: #3a3f43;
       font-weight: 400;
     }
+  }
+
+  .FoodItemList:last-child {
+    min-height: calc(100vh - 6rem - 7.4375rem);
   }
 `;

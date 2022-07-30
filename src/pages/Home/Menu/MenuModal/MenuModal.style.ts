@@ -28,4 +28,7 @@ export const MenuModalStyle = styled.div`
     overflow: hidden;
     overflow-y: scroll;
   }
+  .activeCategory {
+    color: #1c6dc9;
+  }
 `;

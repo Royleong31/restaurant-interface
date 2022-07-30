@@ -9,7 +9,7 @@ type Props = {
 
 export default function ItemList({ items }: Props) {
   return (
-    <ItemListStyle>
+    <ItemListStyle className="FoodItemList">
       {items.map((item) => {
         return <ItemCard item={item.foodItem} key={item.index} />;
       })}

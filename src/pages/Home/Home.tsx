@@ -98,6 +98,7 @@ export default function Home() {
       {menuShow && (
         <Menu
           categories={categories.map((category) => category.category)}
+          activeCategory={activeCategory}
           onOverlayClick={setMenuShow}
         />
       )}
