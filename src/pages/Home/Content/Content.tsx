@@ -26,16 +26,16 @@ const Content = React.forwardRef<HTMLDivElement, Props>(
   ({}: Props, ref: React.ForwardedRef<HTMLDivElement>) => {
     let toRenderSectionAndFoodItems: React.ReactNode[] = []; //This variable is returned.
 
-    categories.forEach((sectionHeader, indexOuter) => {
+    categories.forEach((sectionHeader, catIndex) => {
       const foodItemToRender: { foodItem: FoodItem; index: number }[] = []; //foodItems for each section.
 
       //check if foodItem category matches currentCategory, then add to foodItemToRender.
-      AllFoodItems.forEach((foodItem, indexInner) => {
+      AllFoodItems.forEach((foodItem, foodIndex) => {
         foodItem.categories.forEach((foodItemCategory) => {
           if (sectionHeader.name === foodItemCategory.name) {
             foodItemToRender.push({
               foodItem: foodItem,
-              index: indexOuter * 10 + indexInner,
+              index: foodIndex,
             });
           }
         });
@@ -52,7 +52,7 @@ const Content = React.forwardRef<HTMLDivElement, Props>(
           >
             <h3>{sectionHeader.name}</h3>
           </SectionHeaderStyle>,
-          <ItemList items={foodItemToRender} key={indexOuter} />
+          <ItemList items={foodItemToRender} key={catIndex} />
         );
       }
     });

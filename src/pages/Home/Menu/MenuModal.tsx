@@ -49,10 +49,8 @@ export default function MenuModal({
           return (
             <CategoryLiStyle
               key={category.name}
-              className={
-                category.name === activeCategory ? "activeCategory" : ""
-              }
               onClick={categoryClickHandler}
+              color={category.name === activeCategory ? "#1c6dc9" : ""}
             >
               {category.name}
             </CategoryLiStyle>

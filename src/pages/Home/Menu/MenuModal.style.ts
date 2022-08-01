@@ -17,7 +17,7 @@ export const MenuModalStyle = styled(animated.div)`
     height: fit-content;
     max-height: 70vh;
   }
-  .activeCategory {
+  /* .activeCategory {
     color: #1c6dc9;
-  }
+  } */
 `;
