@@ -5,10 +5,11 @@ import { mcSpicy } from "../../../DummyData/McSpicy";
 import { ovaltineMcFlurry } from "../../../DummyData/OvaltineMcFlurry";
 import { categories } from "../../../DummyData/Categories";
 import { SectionHeaderStyle } from "./SectionHeader.style";
-import ItemList from "./Section/ItemList/ItemList";
+import ItemList from "./ItemList/ItemList";
 
 type Props = {};
 
+//Fetch ALlFoodItems from database
 const AllFoodItems: FoodItem[] = [
   mcSpicy,
   mcSpicy,

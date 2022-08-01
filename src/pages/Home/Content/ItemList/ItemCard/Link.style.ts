@@ -1,9 +1,12 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
-export const ItemCardStyle = styled.div`
+export const LinkStyled = styled(Link)`
   display: flex;
   flex-direction: column;
   gap: 0.625rem;
+  text-decoration: none;
+
   img {
     display: block;
     border-radius: 0.4375rem;

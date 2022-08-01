@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { AuthState } from "redux/slices/authSlice";
 import NotFound from "pages/404";
 import SignIn from "pages/SignIn";
+import FoodItem from "pages/FoodItem/FoodItem";
 
 function App() {
   const location = useLocation();
@@ -17,6 +18,7 @@ function App() {
       <Routes location={location}>
         {/* Accessible to all */}
         <Route path="/" element={<Home />} />
+        <Route path="/:foodItemName" element={<FoodItem />} />
 
         {/* Accessible to NOT logged in users */}
         <Route

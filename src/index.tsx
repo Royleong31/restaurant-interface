@@ -14,12 +14,14 @@ const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
-  <ReduxProvider store={store}>
-    <PersistGate loading={null} persistor={persistor}>
-      <BrowserRouter>
-        <GlobalStyles />
-        <App />
-      </BrowserRouter>
-    </PersistGate>
-  </ReduxProvider>
+  <React.StrictMode>
+    <ReduxProvider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <BrowserRouter>
+          <GlobalStyles />
+          <App />
+        </BrowserRouter>
+      </PersistGate>
+    </ReduxProvider>
+  </React.StrictMode>
 );

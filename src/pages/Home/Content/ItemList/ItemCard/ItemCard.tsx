@@ -1,20 +1,21 @@
 import React from "react";
-import { FoodItem } from "../../../../../../DummyData/DataTypes";
-import { ItemCardStyle } from "./ItemCard.style";
-import numToPrice from "../../../../../../utils/numToPrice";
+import { FoodItem } from "../../../../../DummyData/DataTypes";
+import { LinkStyled } from "./Link.style";
+import numToPrice from "../../../../../utils/numToPrice";
 
 type Props = {
   item: FoodItem;
 };
 
 export default function ItemCard({ item }: Props) {
+  /* This is a react-router-dom Link element */
   return (
-    <ItemCardStyle>
+    <LinkStyled to={`/${item.name}`}>
       <img src={`./img/${item.img}`} alt={item.description} />
       <div>
         <h5>{item.name}</h5>
         <h5>{numToPrice(item.basePrice)}</h5>
       </div>
-    </ItemCardStyle>
+    </LinkStyled>
   );
 }

@@ -56,7 +56,7 @@ export default function Home() {
       console.log(categoryAndPosition); //BUG: the offsetY value changes without setTimeout()
       setCategories(categoryAndPosition);
       setActiveCategory(categoryAndPosition[0].name);
-    }, 70);
+    }, 200);
 
     return () => {
       window.removeEventListener("scroll", scrollHandler);
@@ -87,10 +87,10 @@ export default function Home() {
     enter: { transform: "translateY(0vh)" },
     leave: { transform: "translateY(100vh)" },
     config: {
-      mass: 0.5,
-      tension: 155,
-      friction: 18,
-      velocity: 0.01,
+      mass: 0.7,
+      tension: 238,
+      friction: 25,
+      velocity: 0.006,
     },
   });
   const overlayTransition = useTransition(menuShow, {
@@ -98,10 +98,10 @@ export default function Home() {
     enter: { opacity: 1 },
     leave: { opacity: 0 },
     config: {
-      mass: 0.5,
-      tension: 155,
-      friction: 18,
-      velocity: 0.01,
+      mass: 0.7,
+      tension: 238,
+      friction: 25,
+      velocity: 0.006,
     },
   });
 
