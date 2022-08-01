@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import ReactDOM from "react-dom";
-import { useTransition, animated, config } from "react-spring";
+import { useTransition } from "react-spring";
 import LogoBar from "components/LogoBar";
 import NavBar from "./NavBar/NavBar";
 import Content from "./Content/Content";
@@ -26,6 +26,7 @@ export default function Home() {
   const [activeCategory, setActiveCategory] = useState("");
   const [categories, setCategories] = useState<CategoryPosition[]>([]);
   const [scrollPosition, setScrollPosition] = useState(0);
+  const [loaded, setLoaded] = useState(false);
   const contentDivRef = useRef<HTMLDivElement>(null);
 
   // onMount, add scrollListeners, Initialise categories, y-position, and default activeCategory.
@@ -33,35 +34,44 @@ export default function Home() {
     function scrollHandler() {
       setScrollPosition(window.scrollY);
     }
+    function loadHandler() {
+      setLoaded(true);
+    }
     window.addEventListener("scroll", scrollHandler);
+    window.addEventListener("load", loadHandler);
 
-    //bugFix. I'm not sure why but if I try to get y-position immediately, the value is incorrect. Have to wait around 70ms, then it will work.
-    setTimeout(() => {
-      let categoryAndPosition: CategoryPosition[] = [];
+    let categoryAndPosition: CategoryPosition[] = [];
 
-      const SectionElements = contentDivRef.current?.getElementsByClassName(
-        "FoodCategorySectionHeader"
-      );
-      const length = SectionElements?.length ? SectionElements.length : 0;
+    const SectionElements = contentDivRef.current?.getElementsByClassName(
+      "FoodCategorySectionHeader"
+    );
+    const length = SectionElements?.length ? SectionElements.length : 0;
 
-      for (let i = 0; i < length; i++) {
-        let offsetY =
-          (SectionElements?.item(i)?.getBoundingClientRect().top as number) +
-          window.scrollY;
-        if (i !== 0) offsetY += BORDER_TOP_WIDTH;
-        const categoryName = SectionElements?.item(i)?.firstChild
-          ?.textContent as string;
-        categoryAndPosition.push({ name: categoryName, offsetY: offsetY });
-      }
-      console.log(categoryAndPosition); //BUG: the offsetY value changes without setTimeout()
-      setCategories(categoryAndPosition);
-      setActiveCategory(categoryAndPosition[0].name);
-    }, 200);
+    //BUGFIX
+    if (!loaded) {
+      console.log("not loaded!");
+    } else {
+      console.log("loaded");
+    }
+
+    for (let i = 0; i < length; i++) {
+      let offsetY =
+        (SectionElements?.item(i)?.getBoundingClientRect().top as number) +
+        window.scrollY;
+      if (i !== 0) offsetY += BORDER_TOP_WIDTH;
+      const categoryName = SectionElements?.item(i)?.firstChild
+        ?.textContent as string;
+      categoryAndPosition.push({ name: categoryName, offsetY: offsetY });
+    }
+    console.log(categoryAndPosition);
+    setCategories(categoryAndPosition);
+    setActiveCategory(categoryAndPosition[0].name);
 
     return () => {
       window.removeEventListener("scroll", scrollHandler);
+      window.removeEventListener("load", loadHandler);
     };
-  }, []);
+  }, [loaded]);
 
   //on scroll, check for change in activeCategory
   useEffect(() => {
@@ -138,7 +148,7 @@ export default function Home() {
         <LogoBar />
         <NavBar
           menuClickHandler={setMenuShow}
-          activeCategory={activeCategory} //for debugging, will change to activeCategory
+          activeCategory={activeCategory}
         />
       </HomeHeaderStyle>
       <Content ref={contentDivRef} />
