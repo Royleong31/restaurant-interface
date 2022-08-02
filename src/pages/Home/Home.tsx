@@ -30,7 +30,7 @@ export default function Home() {
 
   useEffect(() => {
     function scrollHandler() {
-      if (categories.length === 0) return; //guard against unloaded state;
+      if (categories.length === 0) return;
       const scrollPosition = window.scrollY;
       let activeIndex = -1;
       categories.forEach((category) => {
