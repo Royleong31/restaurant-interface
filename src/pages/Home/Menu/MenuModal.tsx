@@ -48,9 +48,9 @@ export default function MenuModal({
         {categories.map((category) => {
           return (
             <CategoryLiStyle
-              key={category.name}
-              onClick={categoryClickHandler}
-              color={category.name === activeCategory ? "#1c6dc9" : ""}
+            key={category.name}
+            onClick={categoryClickHandler}
+            $active={category.name === activeCategory}
             >
               {category.name}
             </CategoryLiStyle>
