@@ -10,7 +10,7 @@ export const ContentStyle = styled.div`
       margin: 0 0 0 4.6153846vw;
       font-size: 1.5rem;
       color: #3a3f43;
-      font-weight: 400;
+      font-weight: 500;
     }
   }
 

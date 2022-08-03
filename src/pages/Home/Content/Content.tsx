@@ -1,26 +1,12 @@
 import React from "react";
 import { ContentStyle } from "./Content.style";
 import { FoodItem } from "DummyData/DataTypes";
-import { mcSpicy } from "../../../DummyData/McSpicy";
-import { ovaltineMcFlurry } from "../../../DummyData/OvaltineMcFlurry";
 import { categories } from "../../../DummyData/Categories";
 import { SectionHeaderStyle } from "./SectionHeader.style";
 import ItemList from "./ItemList/ItemList";
+import MockDatabase from "../../../DummyData/MockDatabase"; //fetched data from database
 
 type Props = {};
-
-//Fetch ALlFoodItems from database
-const AllFoodItems: FoodItem[] = [
-  mcSpicy,
-  mcSpicy,
-  mcSpicy,
-  mcSpicy,
-  mcSpicy,
-  mcSpicy,
-  ovaltineMcFlurry,
-  ovaltineMcFlurry,
-  ovaltineMcFlurry,
-];
 
 const Content = React.forwardRef<HTMLDivElement, Props>(
   ({}: Props, ref: React.ForwardedRef<HTMLDivElement>) => {
@@ -30,7 +16,7 @@ const Content = React.forwardRef<HTMLDivElement, Props>(
       const foodItemToRender: { foodItem: FoodItem; index: number }[] = []; //foodItems for each section.
 
       //check if foodItem category matches currentCategory, then add to foodItemToRender.
-      AllFoodItems.forEach((foodItem, foodIndex) => {
+      MockDatabase.forEach((foodItem, foodIndex) => {
         foodItem.categories.forEach((foodItemCategory) => {
           if (sectionHeader.name === foodItemCategory.name) {
             foodItemToRender.push({

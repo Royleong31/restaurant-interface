@@ -13,7 +13,7 @@ export const LinkStyled = styled(Link)`
   }
 
   h5 {
-    font-weight: 400;
+    font-weight: 500;
     font-size: 1rem;
     color: #111b24;
     margin: 0;
