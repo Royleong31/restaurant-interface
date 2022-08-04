@@ -28,5 +28,6 @@ export const InputStyled = styled.input`
     color: black;
     padding: none;
     margin: none;
+    font-weight: 500;
   }
 `;

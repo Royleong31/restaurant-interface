@@ -9,7 +9,8 @@ export const MenuStyle = styled.div`
   padding-left: 1.25rem;
   padding-right: 0.8125rem;
   border-radius: 3.125rem;
-  background-color: #F5F6FA;
+  background-color: #f5f6fa;
   height: inherit;
   width: 16.625rem;
-`
+  font-weight: 500;
+`;

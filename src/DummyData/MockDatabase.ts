@@ -2,7 +2,7 @@ import { FoodItem } from "./DataTypes";
 import { mcSpicy } from "./McSpicy";
 import { ovaltineMcFlurry } from "./OvaltineMcFlurry";
 
-const MockDatabase: FoodItem[] = [
+const mockDatabase: FoodItem[] = [
   mcSpicy,
   mcSpicy,
   mcSpicy,
@@ -14,4 +14,4 @@ const MockDatabase: FoodItem[] = [
   ovaltineMcFlurry,
 ];
 
-export default MockDatabase;
+export default mockDatabase;
