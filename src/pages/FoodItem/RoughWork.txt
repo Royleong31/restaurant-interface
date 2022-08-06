@@ -1,0 +1,83 @@
+      <hr />
+        {/* Have to use useController to have validators run onBlur and onChange */}
+        <div>
+          <h3>Sides</h3>
+          <label>
+            {/*must register as same name "options.0.subOptions"*/}
+            <input
+              type="radio"
+              value="Roasted Sesame & Seaweed Shaker Fries"
+              {...register("options.0.subOptions", {
+                validate: {
+                  min1max1: (value) => value.length !== 0,
+                },
+              })}
+            />
+            Roasted Sesame & Seaweed Shaker Fries
+          </label>
+          <label>
+            <input
+              type="radio"
+              value="Large French Fries"
+              {...register("options.0.subOptions")}
+            />
+            Large French Fries
+          </label>
+        </div>
+        <div>
+          <h3>Drinks</h3>
+          <label>
+            <input
+              type="radio"
+              value="Coke Original Taste Less Sugar Medium"
+              {...register("options.1.subOptions", {
+                validate: {
+                  min1max1: (value) => value.length !== 0,
+                },
+              })}
+            />
+            Coke Original Taste Less Sugar Medium
+          </label>
+          <label>
+            <input
+              type="radio"
+              value="Coke Original Taste Less Sugar Large"
+              {...register("options.1.subOptions")}
+            />
+            Coke Original Taste Less Sugar Large
+          </label>
+        </div>
+        <div>
+          <h3>Remove From McSpicy</h3>
+          <label>
+            <input
+              type="checkbox"
+              value="Remove McChicken Sauce"
+              {...register("options.2.subOptions", {
+                validate: {
+                  min2max2: (value) => value.length === 2,
+                },
+              })}
+            />
+            Remove McChicken Sauce
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              value="Remove Shredded Lettuce"
+              {...register("options.2.subOptions")}
+            />
+            Remove Shredded Lettuce
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              value="Remove McSpicy Patty"
+              {...register("options.2.subOptions")}
+            />
+            Remove McSpicy Patty
+          </label>
+        </div>
+        {errors.options !== undefined && errors.options[2] !== null && (
+          <p>Error. Pick 2.</p>
+        )}

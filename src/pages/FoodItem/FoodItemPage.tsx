@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import _ from "lodash";
 import { useParams } from "react-router-dom";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm, FormProvider } from "react-hook-form";
 import mockDatabase from "../../DummyData/mockDatabase";
 import { FoodItem } from "DummyData/DataTypes";
 import { HeaderStyle } from "./Header.style";
@@ -30,18 +30,30 @@ export default function FoodItemPage() {
   });
 
   //Get react-hook-form props
-  const {
-    register,
-    setValue,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormData>();
-
-  const onSubmit = handleSubmit((formData) => console.log(formData));
-
-  const OptionsFC: JSX.Element[] = foodItem.options.map((option, index) => {
-    return <Option option={option} key={index} />;
+  const methods = useForm<FormData>({
+    defaultValues: {
+      options: foodItem.options.map((option) => {
+        return { name: option.name as string, subOptions: [] };
+      }),
+      finalPrice: foodItem.basePrice,
+    },
+    reValidateMode: "onBlur",
   });
+
+  const onSubmit: SubmitHandler<FormData> = (data) => {
+    console.log("Submitted\n");
+    console.log(data);
+  };
+  console.log(methods.watch("options"));
+  // console.log(methods.formState.errors.options);
+
+  const OptionsFC: JSX.Element[] = foodItem.options.map(
+    (option, optionIndex) => {
+      return (
+        <Option option={option} key={optionIndex} optionIndex={optionIndex} />
+      );
+    }
+  );
 
   return (
     <>
@@ -50,12 +62,13 @@ export default function FoodItemPage() {
         <img src={`./img/${foodItem.img}`} alt={foodItem.description} />
       </HeaderStyle>
 
-      <FormStyle onSubmit={onSubmit}>
-        <Summary foodItem={foodItem} />
-        {OptionsFC}
-        <input {...register("options.0.subOptions.0")} />
-        <input type="submit" />
-      </FormStyle>
+      <FormProvider {...methods}>
+        <FormStyle onSubmit={methods.handleSubmit(onSubmit)}>
+          <Summary foodItem={foodItem} />
+          {OptionsFC}
+          <input type="submit" value="Add To Basket" />
+        </FormStyle>
+      </FormProvider>
     </>
   );
 }
