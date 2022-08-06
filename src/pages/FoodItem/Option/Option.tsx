@@ -12,13 +12,13 @@ type Props = {
 };
 
 export default function Option({ option, optionIndex }: Props) {
-  const [isTouched, setIsTouched] = useState(false); //the built in isTouched doesn't work for checkboxes. Require both onBlur AND onFocus to be true.
+  const [isTouched, setIsTouched] = useState(false); //the builtIn isTouched doesn't work for checkboxes. Require both onBlur AND onFocus to be true.
   const {
     formState: { errors },
     trigger,
   } = useFormContext();
 
-  //determine helper text value, see Notion for explanation.
+  //determine helper text value
   const { helperText, errorMessage, inputType } = ((
     min: number = option.restriction.min,
     max: number = option.restriction.max
@@ -63,13 +63,13 @@ export default function Option({ option, optionIndex }: Props) {
 
   const touchHandler = (): void => {
     console.log("Touched");
-    if (inputType === "radio") setIsTouched(true);
+    setIsTouched(true);
     trigger(`options.${optionIndex}.subOptions`);
   };
 
   const validator = (inputType: string, value: any): boolean => {
-    console.log(`Validate ${option.name}.\nValue:`);
-    console.log(value);
+    // console.log(`Validate ${option.name}.\nValue:`);
+    // console.log(value);
     if (value === null || value === undefined || inputType === "") return false;
 
     let valid = false;
@@ -92,7 +92,6 @@ export default function Option({ option, optionIndex }: Props) {
           inputType={inputType}
           optionIndex={optionIndex}
           validator={validator}
-          touchHandler={setIsTouched}
         />
       );
     }
@@ -105,13 +104,13 @@ export default function Option({ option, optionIndex }: Props) {
   const renderValidIcon =
     isTouched &&
     (errors.options === undefined || errors.options[optionIndex] === undefined);
-  console.log(
-    option.name +
-      "\nRenderValid: " +
-      renderValidIcon +
-      "\nRenderInvalid: " +
-      renderInvalidIcon
-  );
+  // console.log(
+  //   option.name +
+  //     "\nRenderValid: " +
+  //     renderValidIcon +
+  //     "\nRenderInvalid: " +
+  //     renderInvalidIcon
+  // );
   return (
     <OptionStyle>
       <OptionHeaderStyle>

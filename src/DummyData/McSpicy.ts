@@ -10,7 +10,7 @@ const mcSpicySides: Option = {
     {
       name: "Roasted Sesame & Seaweed McShaker Fries",
       available: true,
-      price: 0,
+      price: 1.2,
     },
     {
       name: "Large French Fries",
@@ -27,14 +27,14 @@ const mcSpicyDrinks: Option = {
   },
   subOptions: [
     {
-      name: "Coke Original Taste Less Sugar \nMedium",
+      name: "Coke Original Taste Less Sugar Medium",
       available: true,
       price: 0,
     },
     {
-      name: "Coke Original Taste Less Sugar \nLarge",
+      name: "Coke Original Taste Less Sugar Large",
       available: true,
-      price: 0.0,
+      price: 1.0,
     },
   ],
 };

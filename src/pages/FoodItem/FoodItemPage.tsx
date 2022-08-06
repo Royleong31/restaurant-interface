@@ -29,23 +29,39 @@ export default function FoodItemPage() {
     document.title = foodItem ? foodItem.name : "Not Found";
   });
 
-  //Get react-hook-form props
+  const [totalPrice, setTotalPrice] = useState(foodItem.basePrice);
+
+  //Get react-hook-form methods
   const methods = useForm<FormData>({
     defaultValues: {
       options: foodItem.options.map((option) => {
-        return { name: option.name as string, subOptions: [] };
+        return { name: option.name as string | "", subOptions: [] };
       }),
       finalPrice: foodItem.basePrice,
     },
-    reValidateMode: "onBlur",
   });
+
+  //update value of Total Price whenever form changes.
+  const currentFormValues = methods.getValues("options");
+  const currentFormState = methods.getFieldState("options");
+  useEffect(() => {
+    let additionalCharge = 0;
+    foodItem.options.forEach((option, optionIndex) => {
+      const intersection = option.subOptions.filter((subOption) =>
+        currentFormValues[optionIndex].subOptions.includes(subOption.name)
+      );
+      option.subOptions.forEach((subOption) => {
+        if (intersection.includes(subOption))
+          additionalCharge += subOption.price; //potential bug. Object comparison.
+      });
+    });
+    setTotalPrice(foodItem.basePrice + additionalCharge);
+  }, [foodItem, setTotalPrice, currentFormValues, currentFormState]);
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
     console.log("Submitted\n");
     console.log(data);
   };
-  console.log(methods.watch("options"));
-  // console.log(methods.formState.errors.options);
 
   const OptionsFC: JSX.Element[] = foodItem.options.map(
     (option, optionIndex) => {
@@ -67,6 +83,7 @@ export default function FoodItemPage() {
           <Summary foodItem={foodItem} />
           {OptionsFC}
           <input type="submit" value="Add To Basket" />
+          <p>{`Total price: ${totalPrice}`}</p>
         </FormStyle>
       </FormProvider>
     </>
