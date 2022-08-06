@@ -2,6 +2,7 @@ import React from "react";
 import { useFormContext } from "react-hook-form";
 import { SubOption as SubOptionType } from "DummyData/DataTypes";
 import { LabelStyle } from "./Label.style";
+import numToPrice from "../../../utils/numToPrice";
 
 type Props = {
   subOption: SubOptionType;
@@ -19,16 +20,19 @@ export default function SubOption({
   const { register } = useFormContext();
   return (
     <LabelStyle>
-      <input
-        type={inputType}
-        value={subOption.name}
-        {...register(`options.${optionIndex}.subOptions`, {
-          validate: {
-            validator: (value) => validator(inputType, value),
-          },
-        })}
-      />
-      {subOption.name}
+      <div>
+        <input
+          type={inputType}
+          value={subOption.name}
+          {...register(`options.${optionIndex}.subOptions`, {
+            validate: {
+              validator: (value) => validator(inputType, value),
+            },
+          })}
+        />
+        <p>{subOption.name}</p>
+      </div>
+      <span>{numToPrice(subOption.price)}</span>
     </LabelStyle>
   );
 }

@@ -27,12 +27,12 @@ const mcSpicyDrinks: Option = {
   },
   subOptions: [
     {
-      name: "Coke Original Taste Less Sugar Medium",
+      name: "Coke Original Taste Less Sugar \nMedium",
       available: true,
       price: 0,
     },
     {
-      name: "Coke Original Taste Less Sugar Large",
+      name: "Coke Original Taste Less Sugar \nLarge",
       available: true,
       price: 1.0,
     },

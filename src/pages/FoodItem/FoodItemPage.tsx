@@ -9,6 +9,8 @@ import { FormStyle } from "./Form.style";
 import { CloseIcon } from "../../assets/svgs/index";
 import Summary from "./Summary/Summary";
 import Option from "./Option/Option";
+import QuantityInput from "./QuantityInput/QuantityInput";
+import SubmitSection from "./SubmitSection/SubmitSection";
 
 //Create form data for this foodItem
 type FormData = {
@@ -16,7 +18,7 @@ type FormData = {
     name: string;
     subOptions: string[];
   }[];
-  finalPrice: number;
+  quantity: number;
 };
 
 export default function FoodItemPage() {
@@ -37,7 +39,7 @@ export default function FoodItemPage() {
       options: foodItem.options.map((option) => {
         return { name: option.name as string | "", subOptions: [] };
       }),
-      finalPrice: foodItem.basePrice,
+      quantity: 1,
     },
   });
 
@@ -82,8 +84,10 @@ export default function FoodItemPage() {
         <FormStyle onSubmit={methods.handleSubmit(onSubmit)}>
           <Summary foodItem={foodItem} />
           {OptionsFC}
-          <input type="submit" value="Add To Basket" />
-          <p>{`Total price: ${totalPrice}`}</p>
+          <QuantityInput />
+          <SubmitSection totalPrice={totalPrice} />
+          {/* <p>{`Total price: ${totalPrice}`}</p> */}
+          {/* <input type="submit" value="Add To Basket" /> */}
         </FormStyle>
       </FormProvider>
     </>

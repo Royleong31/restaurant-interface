@@ -4,3 +4,5 @@ export { ReactComponent as DownArrow } from "./DownArrow.svg";
 export { ReactComponent as CloseIcon } from "./CloseIcon.svg";
 export { ReactComponent as ValidIcon } from "./ValidIcon.svg";
 export { ReactComponent as InvalidIcon } from "./InvalidIcon.svg";
+export { ReactComponent as PlusButton } from "./PlusButton.svg";
+export { ReactComponent as MinusButton } from "./MinusButton.svg";
