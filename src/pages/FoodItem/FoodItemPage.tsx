@@ -11,9 +11,11 @@ import Summary from "./Summary/Summary";
 import Option from "./Option/Option";
 import QuantityInput from "./QuantityInput/QuantityInput";
 import SubmitSection from "./SubmitSection/SubmitSection";
+import { FooterStyle } from "./Footer.style";
 
 //Create form data for this foodItem
 type FormData = {
+  name: string;
   options: {
     name: string;
     subOptions: string[];
@@ -38,6 +40,7 @@ export default function FoodItemPage() {
   //Get react-hook-form methods
   const methods = useForm<FormData>({
     defaultValues: {
+      name: foodItem.name,
       options: foodItem.options.map((option) => {
         return { name: option.name as string | "", subOptions: [] };
       }),
@@ -98,13 +101,18 @@ export default function FoodItemPage() {
 
       <FormProvider {...methods}>
         <FormStyle onSubmit={methods.handleSubmit(onSubmit)}>
-          <Summary foodItem={foodItem} />
-          {OptionsFC}
-          <QuantityInput quantity={quantity} onClick={setQuantity} />
-          <SubmitSection
-            totalPrice={totalPrice}
-            isValid={methods.formState.isValid}
+          <Summary
+            foodItem={foodItem}
+            showBorderBottom={OptionsFC.length !== 0}
           />
+          {OptionsFC}
+          <FooterStyle>
+            <QuantityInput quantity={quantity} onClick={setQuantity} />
+            <SubmitSection
+              totalPrice={totalPrice}
+              isValid={methods.formState.isValid}
+            />
+          </FooterStyle>
         </FormStyle>
       </FormProvider>
     </>

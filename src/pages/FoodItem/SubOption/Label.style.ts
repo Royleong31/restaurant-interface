@@ -19,6 +19,7 @@ export const LabelStyle = styled.label`
     gap: 1rem;
   }
   input {
+    cursor: pointer;
     display: block;
     margin: 0;
   }
@@ -30,6 +31,7 @@ export const LabelStyle = styled.label`
     white-space: pre-line;
     width: 16rem;
     margin: 0;
+    user-select: none;
   }
   span {
     font-size: 0.8125rem;

@@ -7,11 +7,15 @@ import { DescriptionStyle } from "./Description.style";
 
 type Props = {
   foodItem: FoodItem;
+  showBorderBottom: boolean;
 };
 
-export default function Summary({ foodItem }: Props) {
+export default React.memo(function Summary({
+  foodItem,
+  showBorderBottom,
+}: Props) {
   return (
-    <SummaryStyle>
+    <SummaryStyle $showBorderBottom={showBorderBottom}>
       <SummaryHeaderStyle>
         <h1>{foodItem.name}</h1>
         <div>
@@ -22,4 +26,4 @@ export default function Summary({ foodItem }: Props) {
       <DescriptionStyle>{foodItem.description}</DescriptionStyle>
     </SummaryStyle>
   );
-}
+});

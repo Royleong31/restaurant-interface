@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { animated, useTransition } from "react-spring";
 import { useFormContext } from "react-hook-form";
 import { Option as OptionType } from "../../../DummyData/DataTypes";
 import { OptionHeaderStyle } from "./OptionHeader.style";
@@ -97,7 +98,6 @@ export default function Option({ option, optionIndex }: Props) {
     }
   );
 
-  if (errors.options !== undefined) console.log(errors.options);
   const renderInvalidIcon =
     errors.options !== undefined && errors.options[optionIndex] !== undefined;
 
@@ -111,13 +111,40 @@ export default function Option({ option, optionIndex }: Props) {
   //     "\nRenderInvalid: " +
   //     renderInvalidIcon
   // );
+
+  const AnimatedValidIcon = animated(ValidIcon);
+  const AnimatedInvalidIcon = animated(InvalidIcon);
+  const transitionOptions = {
+    from: { transform: "translateY(0.3rem)", opacity: 0 },
+    enter: { transform: "translateY(0)", opacity: 1 },
+    leave: { transform: "translateY(0rem)", opacity: 0 },
+    config: {
+      mass: 0.1,
+      tension: 52,
+      friction: 2,
+      velocity: 0.016,
+    },
+  };
+
+  const validIconTransition = useTransition(renderValidIcon, transitionOptions);
+  const invalidIconTransition = useTransition(
+    renderInvalidIcon,
+    transitionOptions
+  );
+
   return (
-    <OptionStyle>
+    <OptionStyle className="options">
       <OptionHeaderStyle>
         <h1>{option.name}</h1>
         <p>{helperText}</p>
-        {renderInvalidIcon && <InvalidIcon />}
-        {renderValidIcon && <ValidIcon />}
+        {invalidIconTransition(
+          (styles, renderInvalidIcon) =>
+            renderInvalidIcon && <AnimatedInvalidIcon style={styles} />
+        )}
+        {validIconTransition(
+          (styles, renderValidIcon) =>
+            renderValidIcon && <AnimatedValidIcon style={styles} />
+        )}
       </OptionHeaderStyle>
       <div onChange={(e) => touchHandler()}>{subOptionArray}</div>
     </OptionStyle>

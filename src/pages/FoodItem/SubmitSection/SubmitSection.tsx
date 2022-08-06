@@ -7,7 +7,10 @@ type Props = {
   isValid: boolean;
 };
 
-export default function SubmitSection({ totalPrice, isValid }: Props) {
+export default React.memo(function SubmitSection({
+  totalPrice,
+  isValid,
+}: Props) {
   return (
     <SubmitSectionStyle $disabled={!isValid}>
       <input
@@ -17,4 +20,4 @@ export default function SubmitSection({ totalPrice, isValid }: Props) {
       />
     </SubmitSectionStyle>
   );
-}
+});

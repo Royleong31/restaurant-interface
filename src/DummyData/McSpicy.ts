@@ -42,7 +42,7 @@ const mcSpicyRemove: Option = {
   name: "Remove From McSpicy",
   restriction: {
     min: 0,
-    max: 3,
+    max: 2,
   },
   subOptions: [
     {
