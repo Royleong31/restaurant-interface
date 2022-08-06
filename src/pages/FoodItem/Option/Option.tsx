@@ -62,7 +62,7 @@ export default function Option({ option, optionIndex }: Props) {
   })();
 
   const touchHandler = (): void => {
-    console.log("Touched");
+    // console.log("Touched");
     setIsTouched(true);
     trigger(`options.${optionIndex}.subOptions`);
   };

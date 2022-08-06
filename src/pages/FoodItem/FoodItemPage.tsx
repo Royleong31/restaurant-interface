@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import _ from "lodash";
-import { useParams } from "react-router-dom";
+import _, { method } from "lodash";
+import { useParams, Link } from "react-router-dom";
 import { SubmitHandler, useForm, FormProvider } from "react-hook-form";
 import mockDatabase from "../../DummyData/mockDatabase";
 import { FoodItem } from "DummyData/DataTypes";
@@ -19,6 +19,7 @@ type FormData = {
     subOptions: string[];
   }[];
   quantity: number;
+  finalPrice: number;
 };
 
 export default function FoodItemPage() {
@@ -32,6 +33,7 @@ export default function FoodItemPage() {
   });
 
   const [totalPrice, setTotalPrice] = useState(foodItem.basePrice);
+  const [quantity, setQuantity] = useState(1);
 
   //Get react-hook-form methods
   const methods = useForm<FormData>({
@@ -40,10 +42,12 @@ export default function FoodItemPage() {
         return { name: option.name as string | "", subOptions: [] };
       }),
       quantity: 1,
+      finalPrice: foodItem.basePrice,
     },
   });
 
   //update value of Total Price whenever form changes.
+  //issue if I directly use getValues('finalPrice')
   const currentFormValues = methods.getValues("options");
   const currentFormState = methods.getFieldState("options");
   useEffect(() => {
@@ -54,11 +58,21 @@ export default function FoodItemPage() {
       );
       option.subOptions.forEach((subOption) => {
         if (intersection.includes(subOption))
-          additionalCharge += subOption.price; //potential bug. Object comparison.
+          additionalCharge += subOption.price;
       });
     });
-    setTotalPrice(foodItem.basePrice + additionalCharge);
-  }, [foodItem, setTotalPrice, currentFormValues, currentFormState]);
+    const finalPrice = (foodItem.basePrice + additionalCharge) * quantity;
+    methods.setValue("quantity", quantity);
+    methods.setValue("finalPrice", finalPrice);
+    setTotalPrice(finalPrice);
+  }, [
+    foodItem,
+    setTotalPrice,
+    currentFormValues,
+    currentFormState,
+    methods,
+    quantity,
+  ]);
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
     console.log("Submitted\n");
@@ -76,7 +90,9 @@ export default function FoodItemPage() {
   return (
     <>
       <HeaderStyle>
-        <CloseIcon />
+        <Link to={"/"}>
+          <CloseIcon />
+        </Link>
         <img src={`./img/${foodItem.img}`} alt={foodItem.description} />
       </HeaderStyle>
 
@@ -84,10 +100,11 @@ export default function FoodItemPage() {
         <FormStyle onSubmit={methods.handleSubmit(onSubmit)}>
           <Summary foodItem={foodItem} />
           {OptionsFC}
-          <QuantityInput />
-          <SubmitSection totalPrice={totalPrice} />
-          {/* <p>{`Total price: ${totalPrice}`}</p> */}
-          {/* <input type="submit" value="Add To Basket" /> */}
+          <QuantityInput quantity={quantity} onClick={setQuantity} />
+          <SubmitSection
+            totalPrice={totalPrice}
+            isValid={methods.formState.isValid}
+          />
         </FormStyle>
       </FormProvider>
     </>

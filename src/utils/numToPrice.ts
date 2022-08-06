@@ -5,6 +5,8 @@
   console.log(price); //4.80
 */
 export default function numToPrice(num: number): string {
+  num = Math.round(num * 1e2) / 1e2;
+
   //num is integer //5 -> 5.00
   if (num % 1 === 0) return num.toString().concat(".00");
 
