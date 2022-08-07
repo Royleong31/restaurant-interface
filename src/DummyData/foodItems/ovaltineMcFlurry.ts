@@ -1,4 +1,4 @@
-import { FoodItem } from "./dataTypes";
+import { FoodItem } from "../dataTypes";
 
 export const ovaltineMcFlurry: FoodItem = {
   name: "Ovaltine® McFlurry®",

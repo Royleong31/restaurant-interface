@@ -24,19 +24,13 @@ export default function Option({ option, optionIndex }: Props) {
     min: number = option.restriction.min,
     max: number = option.restriction.max
   ): { helperText: string; errorMessage: string; inputType: string } => {
-    if (min === 0 && max === 1)
-      return {
-        helperText: "Optional",
-        errorMessage: "",
-        inputType: "radio",
-      };
-    else if (min === 0 && max === option.subOptions.length)
+    if (min === 0 && max === option.subOptions.length)
       return {
         helperText: `Optional, max ${max}`,
         errorMessage: "",
         inputType: "checkbox",
       };
-    else if (min === 0 && max > 1)
+    else if (min === 0 && max >= 1)
       return {
         helperText: `Optional, max ${max}`,
         errorMessage: `Pick up to ${max} options`,
@@ -137,15 +131,15 @@ export default function Option({ option, optionIndex }: Props) {
       <OptionHeaderStyle>
         <h1>{option.name}</h1>
         <p>{helperText}</p>
-        {invalidIconTransition(
-          (styles, renderInvalidIcon) =>
-            renderInvalidIcon && <AnimatedInvalidIcon style={styles} />
-        )}
-        {validIconTransition(
-          (styles, renderValidIcon) =>
-            renderValidIcon && <AnimatedValidIcon style={styles} />
-        )}
       </OptionHeaderStyle>
+      {invalidIconTransition(
+        (styles, renderInvalidIcon) =>
+          renderInvalidIcon && <AnimatedInvalidIcon style={styles} />
+      )}
+      {validIconTransition(
+        (styles, renderValidIcon) =>
+          renderValidIcon && <AnimatedValidIcon style={styles} />
+      )}
       <div onChange={(e) => touchHandler()}>{subOptionArray}</div>
     </OptionStyle>
   );

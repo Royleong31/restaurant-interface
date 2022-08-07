@@ -18,6 +18,11 @@ export const SummaryHeaderStyle = styled.div`
     color: #000;
   }
 
+  h1 {
+    width: 75%;
+    line-height: 1.7rem;
+  }
+
   h2 {
     font-variant: small-caps;
     text-transform: lowercase;

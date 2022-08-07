@@ -101,11 +101,13 @@ export default function FoodItemPage() {
 
       <FormProvider {...methods}>
         <FormStyle onSubmit={methods.handleSubmit(onSubmit)}>
-          <Summary
-            foodItem={foodItem}
-            showBorderBottom={OptionsFC.length !== 0}
-          />
-          {OptionsFC}
+          <div className="inputs">
+            <Summary
+              foodItem={foodItem}
+              showBorderBottom={OptionsFC.length !== 0}
+            />
+            {OptionsFC}
+          </div>
           <FooterStyle>
             <QuantityInput quantity={quantity} onClick={setQuantity} />
             <SubmitSection
