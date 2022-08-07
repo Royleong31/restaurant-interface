@@ -1,6 +1,6 @@
 import React from "react";
 import { useFormContext } from "react-hook-form";
-import { SubOption as SubOptionType } from "DummyData/DataTypes";
+import { SubOption as SubOptionType } from "dummyData/dataTypes";
 import { LabelStyle } from "./Label.style";
 import numToPrice from "../../../utils/numToPrice";
 

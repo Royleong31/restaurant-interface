@@ -1,10 +1,10 @@
 import React from "react";
 import { ContentStyle } from "./Content.style";
-import { FoodItem } from "DummyData/DataTypes";
-import { categories } from "../../../DummyData/Categories";
+import { FoodItem } from "dummyData/dataTypes";
+import { categories } from "../../../dummyData/categories";
 import { SectionHeaderStyle } from "./SectionHeader.style";
 import ItemList from "./ItemList/ItemList";
-import mockDatabase from "../../../DummyData/mockDatabase"; //fetched data from database
+import mockDatabase from "../../../dummyData/mockDatabase"; //fetched data from database
 
 type Props = {};
 

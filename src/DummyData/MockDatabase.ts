@@ -1,6 +1,6 @@
-import { FoodItem } from "./DataTypes";
-import { mcSpicy } from "./McSpicy";
-import { ovaltineMcFlurry } from "./OvaltineMcFlurry";
+import { FoodItem } from "./dataTypes";
+import { mcSpicy } from "./mcSpicy";
+import { ovaltineMcFlurry } from "./ovaltineMcFlurry";
 
 const mockDatabase: FoodItem[] = [
   mcSpicy,

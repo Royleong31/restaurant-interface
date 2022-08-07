@@ -1,4 +1,4 @@
-import { Option, FoodItem } from "./DataTypes";
+import { Option, FoodItem } from "./dataTypes";
 
 const mcSpicySides: Option = {
   name: "Sides",

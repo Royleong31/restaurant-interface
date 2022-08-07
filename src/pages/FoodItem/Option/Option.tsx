@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { animated, useTransition } from "react-spring";
 import { useFormContext } from "react-hook-form";
-import { Option as OptionType } from "../../../DummyData/DataTypes";
+import { Option as OptionType } from "../../../dummyData/dataTypes";
 import { OptionHeaderStyle } from "./OptionHeader.style";
 import { OptionStyle } from "./Option.style";
 import { ValidIcon, InvalidIcon } from "assets/svgs";
