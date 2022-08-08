@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   PlusButton,
   MinusButton,
   PlusIcon,
   MinusIcon,
 } from "../../../assets/svgs";
-import { QuantityInputStyle } from "./QuantityInput.style";
+import { QuantityInputStyle, animateOptions } from "./QuantityInput.style";
 import { animated, useSpring } from "react-spring";
 import { OperatorDiv } from "./OperatorDiv.style";
 
@@ -15,40 +15,44 @@ type Props = {
 };
 
 export default React.memo(function QuantityInput({ quantity, onClick }: Props) {
-  const clickHandler = (action: string): void => {
+  const [disableDecrement, setDisableDecrement] = useState(false);
+
+  const clickHandler = (action: "increment" | "decrement"): void => {
     switch (action) {
       case "increment":
+        if (quantity === 1) setDisableDecrement(false);
         onClick(quantity + 1);
         return;
+
       case "decrement":
-        if (quantity > 1) onClick(quantity - 1);
+        if (quantity === 2) {
+          setDisableDecrement(true);
+          onClick(quantity - 1);
+          return;
+        } else if (quantity > 2) onClick(quantity - 1);
         return;
+
       default:
         return;
     }
   };
 
-  const animateProps = useSpring({
-    from: { transform: "translateY(-0.3rem)", opacity: 0.8 },
-    to: { transform: "translateY(0)", opacity: 1 },
-    reset: true,
-    // delay: 200,
-    config: {
-      mass: 0.1,
-      tension: 52,
-      friction: 2,
-      velocity: 0.016,
-    },
-  });
+  const animateProps = useSpring(animateOptions);
 
   return (
     <>
       <QuantityInputStyle>
-        <OperatorDiv onClick={() => clickHandler("decrement")}>
+        <OperatorDiv
+          $disabled={disableDecrement}
+          onClick={() => clickHandler("decrement")}
+        >
           <MinusIcon />
         </OperatorDiv>
         <animated.span style={animateProps}>{quantity}</animated.span>
-        <OperatorDiv onClick={() => clickHandler("increment")}>
+        <OperatorDiv
+          $disabled={false}
+          onClick={() => clickHandler("increment")}
+        >
           <PlusIcon />
         </OperatorDiv>
       </QuantityInputStyle>

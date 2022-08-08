@@ -1,6 +1,10 @@
 import styled from "styled-components";
 
-export const OperatorDiv = styled.div`
+type Props = {
+  $disabled: boolean;
+};
+
+export const OperatorDiv = styled.div<Props>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -11,10 +15,12 @@ export const OperatorDiv = styled.div`
   border: solid 0.0625rem #f4f4f4;
 
   &:hover {
-    cursor: pointer;
-    filter: brightness(0.95);
+    cursor: ${(props) => (props.$disabled ? "default" : "pointer")};
+    filter: ${(props) =>
+      props.$disabled ? "brightness(1)" : "brightness(0.95)"};
   }
   &:active {
-    filter: brightness(0.9);
+    filter: ${(props) =>
+      props.$disabled ? "brightness(1)" : "brightness(0.9)"};
   }
 `;

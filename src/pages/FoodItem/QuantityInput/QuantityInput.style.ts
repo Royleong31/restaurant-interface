@@ -17,3 +17,16 @@ export const QuantityInputStyle = styled.div`
     user-select: none;
   }
 `;
+
+export const animateOptions = {
+  from: { transform: "translateY(-0.3rem)", opacity: 0.8 },
+  to: { transform: "translateY(0)", opacity: 1 },
+  reset: true,
+  // delay: 200,
+  config: {
+    mass: 0.1,
+    tension: 52,
+    friction: 2,
+    velocity: 0.016,
+  },
+};

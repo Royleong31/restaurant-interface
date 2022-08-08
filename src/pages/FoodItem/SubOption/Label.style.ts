@@ -37,5 +37,6 @@ export const LabelStyle = styled.label`
     font-size: 0.8125rem;
     color: #666666;
     align-self: center;
+    user-select: none;
   }
 `;
