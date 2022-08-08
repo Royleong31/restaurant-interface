@@ -7,6 +7,7 @@ import { BrowserRouter } from "react-router-dom";
 import { GlobalStyles } from "config/GlobalStyles";
 import { persistStore } from "redux-persist";
 import store from "redux/store";
+import ScrollToTop from "utils/ScrollToTop";
 
 const persistor = persistStore(store); //get persistedStore here
 
@@ -19,6 +20,7 @@ root.render(
       <PersistGate loading={null} persistor={persistor}>
         <BrowserRouter>
           <GlobalStyles />
+          <ScrollToTop />
           <App />
         </BrowserRouter>
       </PersistGate>

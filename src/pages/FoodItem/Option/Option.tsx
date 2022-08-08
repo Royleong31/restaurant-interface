@@ -20,41 +20,45 @@ export default function Option({ option, optionIndex }: Props) {
   } = useFormContext();
 
   //determine helper text value
-  const { helperText, errorMessage, inputType } = ((
-    min: number = option.restriction.min,
-    max: number = option.restriction.max
-  ): { helperText: string; errorMessage: string; inputType: string } => {
-    if (min === 0 && max === option.subOptions.length)
-      return {
-        helperText: `Optional, max ${max}`,
-        errorMessage: "",
-        inputType: "checkbox",
-      };
-    else if (min === 0 && max >= 1)
-      return {
-        helperText: `Optional, max ${max}`,
-        errorMessage: `Pick up to ${max} options`,
-        inputType: "checkbox",
-      };
-    else if (min === 1 && max === 1)
-      return {
-        helperText: `Pick 1`,
-        errorMessage: `Pick 1 option`,
-        inputType: "radio",
-      };
-    else if (min === max)
-      return {
-        helperText: `Pick ${min}`,
-        errorMessage: `Pick ${min} options`,
-        inputType: "checkbox",
-      };
-    else
-      return {
-        helperText: `Pick ${min}, max ${max}`,
-        errorMessage: `Pick between ${min} and ${max} options`,
-        inputType: "checkbox",
-      };
-  })();
+  let inputOptions: {
+    helperText: string;
+    errorMessage: string;
+    inputType: string;
+  };
+  const min = option.restriction.min,
+    max = option.restriction.max;
+
+  if (min === 0 && max === option.subOptions.length) {
+    inputOptions = {
+      helperText: `Optional, max ${max}`,
+      errorMessage: "",
+      inputType: "checkbox",
+    };
+  } else if (min === 0 && max >= 1) {
+    inputOptions = {
+      helperText: `Optional, max ${max}`,
+      errorMessage: `Pick up to ${max} options`,
+      inputType: "checkbox",
+    };
+  } else if (min === 1 && max === 1) {
+    inputOptions = {
+      helperText: `Pick 1`,
+      errorMessage: `Pick 1 option`,
+      inputType: "radio",
+    };
+  } else if (min === max) {
+    inputOptions = {
+      helperText: `Pick ${min}`,
+      errorMessage: `Pick ${min} options`,
+      inputType: "checkbox",
+    };
+  } else {
+    inputOptions = {
+      helperText: `Pick ${min}, max ${max}`,
+      errorMessage: `Pick between ${min} and ${max} options`,
+      inputType: "checkbox",
+    };
+  }
 
   const touchHandler = (): void => {
     // console.log("Touched");
@@ -84,7 +88,7 @@ export default function Option({ option, optionIndex }: Props) {
         <SubOption
           key={subOptionIndex}
           subOption={subOption}
-          inputType={inputType}
+          inputType={inputOptions.inputType}
           optionIndex={optionIndex}
           validator={validator}
         />
@@ -130,7 +134,7 @@ export default function Option({ option, optionIndex }: Props) {
     <OptionStyle className="options">
       <OptionHeaderStyle>
         <h1>{option.name}</h1>
-        <p>{helperText}</p>
+        <p>{inputOptions.helperText}</p>
       </OptionHeaderStyle>
       {invalidIconTransition(
         (styles, renderInvalidIcon) =>
