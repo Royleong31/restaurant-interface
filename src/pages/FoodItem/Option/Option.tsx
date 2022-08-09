@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { animated, useTransition } from "react-spring";
+import { useTransition } from "react-spring";
 import { useFormContext } from "react-hook-form";
 import { Option as OptionType } from "../../../dummyData/dataTypes";
 import { OptionHeaderStyle } from "./OptionHeader.style";
@@ -9,8 +9,6 @@ import {
   AnimatedValidIcon,
   transitionOptions,
 } from "./Option.style";
-import { ValidIcon, InvalidIcon } from "assets/svgs";
-import SubOption from "../SubOption/SubOption";
 import SubOptions from "../SubOption/SubOptions";
 
 type Props = {
@@ -29,7 +27,7 @@ export default function Option({ option, optionIndex }: Props) {
   let inputOptions: {
     helperText: string;
     errorMessage: string;
-    inputType: string;
+    inputType: "radio" | "checkbox";
   };
   const min = option.restriction.min,
     max = option.restriction.max;
@@ -43,7 +41,8 @@ export default function Option({ option, optionIndex }: Props) {
   } else if (min === 0 && max >= 1) {
     inputOptions = {
       helperText: `Optional, max ${max}`,
-      errorMessage: `Pick up to ${max} options`,
+      errorMessage:
+        max === 1 ? "Pick up to 1 option" : `Pick up to ${max} options`,
       inputType: "checkbox",
     };
   } else if (min === 1 && max === 1) {
@@ -72,49 +71,12 @@ export default function Option({ option, optionIndex }: Props) {
     trigger(`options.${optionIndex}.subOptions`);
   };
 
-  const validator = (inputType: string, value: any): boolean => {
-    // console.log(`Validate ${option.name}.\nValue:`);
-    // console.log(value);
-    if (value === null || value === undefined || inputType === "") return false;
-
-    let valid = false;
-    if (inputType === "radio") {
-      valid = value.length > 0;
-    } else if (inputType === "checkbox") {
-      valid =
-        value.length >= option.restriction.min &&
-        value.length <= option.restriction.max;
-    }
-
-    return valid;
-  };
-  const subOptionArray: JSX.Element[] = option.subOptions.map(
-    (subOption, subOptionIndex) => {
-      return (
-        <SubOption
-          key={subOptionIndex}
-          subOption={subOption}
-          inputType={inputOptions.inputType}
-          optionIndex={optionIndex}
-          validator={validator}
-        />
-      );
-    }
-  );
-
   const renderInvalidIcon =
     errors.options !== undefined && errors.options[optionIndex] !== undefined;
 
   const renderValidIcon =
     isTouched &&
     (errors.options === undefined || errors.options[optionIndex] === undefined);
-  // console.log(
-  //   option.name +
-  //     "\nRenderValid: " +
-  //     renderValidIcon +
-  //     "\nRenderInvalid: " +
-  //     renderInvalidIcon
-  // );
 
   const validIconTransition = useTransition(renderValidIcon, transitionOptions);
   const invalidIconTransition = useTransition(
@@ -138,10 +100,10 @@ export default function Option({ option, optionIndex }: Props) {
       )}
       <div onChange={(e) => touchHandler()}>
         <SubOptions
-          subOptions={option.subOptions}
-          optionName={`options.${optionIndex}.subOptions`}
+          option={option}
+          optionIndex={optionIndex}
+          errorMessage={inputOptions.errorMessage}
           inputType={inputOptions.inputType}
-          validator={validator}
         />
       </div>
     </OptionStyle>
