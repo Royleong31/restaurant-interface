@@ -7,35 +7,39 @@ import numToPrice from "../../../utils/numToPrice";
 type Props = {
   option: OptionType;
   optionIndex: number;
-  errorMessage: string;
-  inputType: "radio" | "checkbox";
+  inputOptions: {
+    helperText: string;
+    errorMessage: string;
+    inputType: "radio" | "checkbox";
+  };
+  setIsTouched: (value: React.SetStateAction<boolean>) => void;
 };
 
 const validator = (
-  value: any,
+  value: string | string[],
   inputType: "radio" | "checkbox",
   min: number,
   max: number
 ): boolean => {
   // console.log(value);
   if (value === null || value === undefined) return false;
-
-  let valid = false;
   if (inputType === "radio") {
-    valid = value.length > 0;
+    //value will be string
+    return value.length > 0;
   } else if (inputType === "checkbox") {
-    valid = value.length >= min && value.length <= max;
+    //value will be string[]
+    return value.length >= min && value.length <= max;
   }
-  return valid;
+  return false;
 };
 
 export default function SubOptions({
   option,
+  inputOptions,
   optionIndex,
-  errorMessage,
-  inputType,
+  setIsTouched,
 }: Props) {
-  const { control } = useFormContext();
+  const { control, trigger } = useFormContext();
   const { field, fieldState } = useController({
     name: `options.${optionIndex}.subOptions`,
     control: control,
@@ -44,15 +48,21 @@ export default function SubOptions({
         validator: (value) =>
           validator(
             value,
-            inputType,
+            inputOptions.inputType,
             option.restriction.min,
             option.restriction.max
-          ) || errorMessage,
+          ) || inputOptions.errorMessage,
       },
     },
   });
-  const [subOptionFormValues, setSubOptionFormValues] = useState<string[]>([]);
+  const [subOptionFormValues, setSubOptionFormValues] = useState<string[]>([]); //set up controlled input
   console.log(fieldState.error);
+
+  const touchHandler = (): void => {
+    // console.log("Touched");
+    setIsTouched(true);
+    trigger(`options.${optionIndex}.subOptions`);
+  };
 
   return (
     <>
@@ -62,30 +72,31 @@ export default function SubOptions({
             <input
               key={subOptionIndex}
               checked={subOptionFormValues.includes(subOption.name)}
-              type={inputType}
+              type={inputOptions.inputType}
               value={subOption.name}
               name={`options.${optionIndex}.subOptions`}
               onChange={(e) => {
                 let subOptionFormValuesCopy: string[] =
                   structuredClone(subOptionFormValues); // using destructuring is buggy {...subOptionFormValues}
 
-                if (e.target.checked && inputType === "radio") {
-                  // console.log("Radio checked");
+                if (e.target.checked && inputOptions.inputType === "radio") {
                   field.onChange([`${e.target.value}`]);
                   setSubOptionFormValues([`${e.target.value}`]);
-                } else if (e.target.checked && inputType === "checkbox") {
-                  // console.log("Checkbox checked");
+                } else if (
+                  e.target.checked &&
+                  inputOptions.inputType === "checkbox"
+                ) {
                   subOptionFormValuesCopy.push(e.target.value);
                   field.onChange(subOptionFormValuesCopy);
                   setSubOptionFormValues(subOptionFormValuesCopy);
                 } else if (!e.target.checked) {
-                  // console.log("Checkbox unchecked");
                   subOptionFormValuesCopy = subOptionFormValuesCopy.filter(
                     (subOptionValue) => subOptionValue !== e.target.value
                   );
                   field.onChange(subOptionFormValuesCopy);
                   setSubOptionFormValues(subOptionFormValuesCopy);
                 }
+                touchHandler();
               }}
             />
             <p>{subOption.name}</p>

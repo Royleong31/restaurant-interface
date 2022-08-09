@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import _, { method } from "lodash";
+import _ from "lodash";
 import { useParams, Link } from "react-router-dom";
 import { SubmitHandler, useForm, FormProvider } from "react-hook-form";
 import mockDatabase from "../../dummyData/mockDatabase";

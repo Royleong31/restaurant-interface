@@ -20,7 +20,6 @@ export default function Option({ option, optionIndex }: Props) {
   const [isTouched, setIsTouched] = useState(false); //the builtIn isTouched doesn't work for checkboxes. Require both onBlur AND onFocus to be true.
   const {
     formState: { errors },
-    trigger,
   } = useFormContext();
 
   //determine helper text value
@@ -41,8 +40,7 @@ export default function Option({ option, optionIndex }: Props) {
   } else if (min === 0 && max >= 1) {
     inputOptions = {
       helperText: `Optional, max ${max}`,
-      errorMessage:
-        max === 1 ? "Pick up to 1 option" : `Pick up to ${max} options`,
+      errorMessage: `Pick up to ${max} option${max === 1 ? "" : "s"}`,
       inputType: "checkbox",
     };
   } else if (min === 1 && max === 1) {
@@ -54,7 +52,7 @@ export default function Option({ option, optionIndex }: Props) {
   } else if (min === max) {
     inputOptions = {
       helperText: `Pick ${min}`,
-      errorMessage: `Pick ${min} options`,
+      errorMessage: `Pick ${min} option${min === 1 ? "" : "s"}`,
       inputType: "checkbox",
     };
   } else {
@@ -64,12 +62,6 @@ export default function Option({ option, optionIndex }: Props) {
       inputType: "checkbox",
     };
   }
-
-  const touchHandler = (): void => {
-    // console.log("Touched");
-    setIsTouched(true);
-    trigger(`options.${optionIndex}.subOptions`);
-  };
 
   const renderInvalidIcon =
     errors.options !== undefined && errors.options[optionIndex] !== undefined;
@@ -98,14 +90,13 @@ export default function Option({ option, optionIndex }: Props) {
         (styles, renderValidIcon) =>
           renderValidIcon && <AnimatedValidIcon style={styles} />
       )}
-      <div onChange={(e) => touchHandler()}>
-        <SubOptions
-          option={option}
-          optionIndex={optionIndex}
-          errorMessage={inputOptions.errorMessage}
-          inputType={inputOptions.inputType}
-        />
-      </div>
+
+      <SubOptions
+        option={option}
+        optionIndex={optionIndex}
+        inputOptions={inputOptions}
+        setIsTouched={setIsTouched}
+      />
     </OptionStyle>
   );
 }
