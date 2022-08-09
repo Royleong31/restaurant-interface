@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import _ from "lodash";
 import { useParams, Link } from "react-router-dom";
 import { SubmitHandler, useForm, FormProvider } from "react-hook-form";
@@ -9,9 +9,9 @@ import { FormStyle } from "./Form.style";
 import { CloseIcon } from "../../assets/svgs/index";
 import Summary from "./Summary/Summary";
 import Option from "./Option/Option";
-import QuantityInput from "./QuantityInput/QuantityInput";
 import SubmitSection from "./SubmitSection/SubmitSection";
 import { FooterStyle } from "./Footer.style";
+import QuantityInput from "./QuantityInput/QuantityInput";
 
 //Create form data for this foodItem
 type FormData = {
@@ -34,7 +34,30 @@ export default function FoodItemPage() {
     document.title = foodItem ? foodItem.name : "Not Found";
   });
 
-  const [totalPrice, setTotalPrice] = useState(foodItem.basePrice);
+  //Create price state. Updates on every input change.
+  const initialPrices = {
+    optionPrices: foodItem.options.map((option) => 0),
+    totalPrice: foodItem.basePrice,
+  };
+  const priceReducer = (
+    state: {
+      optionPrices: number[];
+      totalPrice: number;
+    },
+    action: {
+      index: number;
+      amount: number;
+    }
+  ) => {
+    const newState = { ...state };
+    newState.optionPrices[action.index] = action.amount;
+    newState.totalPrice = newState.optionPrices.reduce(
+      (prev, optionPrice) => prev + optionPrice,
+      foodItem.basePrice
+    );
+    return newState;
+  };
+  const [priceState, dispatchPrice] = useReducer(priceReducer, initialPrices);
   const [quantity, setQuantity] = useState(1);
 
   //Get react-hook-form methods
@@ -49,46 +72,13 @@ export default function FoodItemPage() {
     },
   });
 
-  //update value of Total Price whenever form changes.
-  //issue if I directly use getValues('finalPrice')
-  const currentFormValues = methods.getValues("options");
-  const currentFormState = methods.getFieldState("options");
-  useEffect(() => {
-    let additionalCharge = 0;
-    foodItem.options.forEach((option, optionIndex) => {
-      const intersection = option.subOptions.filter((subOption) =>
-        currentFormValues[optionIndex].subOptions.includes(subOption.name)
-      );
-      option.subOptions.forEach((subOption) => {
-        if (intersection.includes(subOption))
-          additionalCharge += subOption.price;
-      });
-    });
-    const finalPrice = (foodItem.basePrice + additionalCharge) * quantity;
-    methods.setValue("quantity", quantity);
-    methods.setValue("finalPrice", finalPrice);
-    setTotalPrice(finalPrice);
-  }, [
-    foodItem,
-    setTotalPrice,
-    currentFormValues,
-    currentFormState,
-    methods,
-    quantity,
-  ]);
+  methods.setValue("finalPrice", priceState.totalPrice * quantity);
+
   console.log(methods.watch("options"));
   const onSubmit: SubmitHandler<FormData> = (data) => {
     console.log("Submitted\n");
     console.log(data);
   };
-
-  const OptionsFC: JSX.Element[] = foodItem.options.map(
-    (option, optionIndex) => {
-      return (
-        <Option option={option} key={optionIndex} optionIndex={optionIndex} />
-      );
-    }
-  );
 
   return (
     <>
@@ -104,14 +94,24 @@ export default function FoodItemPage() {
           <div className="inputs">
             <Summary
               foodItem={foodItem}
-              showBorderBottom={OptionsFC.length !== 0}
+              showBorderBottom={foodItem.options.length !== 0}
             />
-            {OptionsFC}
+            {foodItem.options.map((option, optionIndex) => {
+              return (
+                <Option
+                  option={option}
+                  key={optionIndex}
+                  optionIndex={optionIndex}
+                  dispatchPrice={dispatchPrice}
+                />
+              );
+            })}
           </div>
           <FooterStyle>
-            <QuantityInput quantity={quantity} onClick={setQuantity} />
+            {/* <QuantityInput quantity={quantity} onClick={setQuantity} /> */}
+            <QuantityInput quantity={quantity} setQuantity={setQuantity} />
             <SubmitSection
-              totalPrice={totalPrice}
+              totalPrice={priceState.totalPrice * quantity}
               isValid={methods.formState.isValid}
             />
           </FooterStyle>

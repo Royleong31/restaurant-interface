@@ -14,9 +14,13 @@ import SubOptions from "../SubOption/SubOptions";
 type Props = {
   option: OptionType;
   optionIndex: number;
+  dispatchPrice: React.Dispatch<{
+    index: number;
+    amount: number;
+  }>;
 };
 
-export default function Option({ option, optionIndex }: Props) {
+export default function Option({ option, optionIndex, dispatchPrice }: Props) {
   const [isTouched, setIsTouched] = useState(false); //the builtIn isTouched doesn't work for checkboxes. Require both onBlur AND onFocus to be true.
   const {
     formState: { errors },
@@ -96,6 +100,7 @@ export default function Option({ option, optionIndex }: Props) {
         optionIndex={optionIndex}
         inputOptions={inputOptions}
         setIsTouched={setIsTouched}
+        dispatchPrice={dispatchPrice}
       />
     </OptionStyle>
   );
