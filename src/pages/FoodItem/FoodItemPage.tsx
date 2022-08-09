@@ -76,7 +76,7 @@ export default function FoodItemPage() {
     methods,
     quantity,
   ]);
-
+  console.log(methods.watch("options"));
   const onSubmit: SubmitHandler<FormData> = (data) => {
     console.log("Submitted\n");
     console.log(data);

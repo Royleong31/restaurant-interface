@@ -1,7 +1,7 @@
 import React from "react";
-import { FoodItem } from "../../../../../dummyData/dataTypes";
+import { FoodItem } from "dummyData/dataTypes";
 import { LinkStyled } from "./Link.style";
-import numToPrice from "../../../../../utils/numToPrice";
+import numToPrice from "utils/numToPrice";
 import _ from "lodash";
 
 type Props = {

@@ -11,6 +11,7 @@ import {
 } from "./Option.style";
 import { ValidIcon, InvalidIcon } from "assets/svgs";
 import SubOption from "../SubOption/SubOption";
+import SubOptions from "../SubOption/SubOptions";
 
 type Props = {
   option: OptionType;
@@ -135,7 +136,14 @@ export default function Option({ option, optionIndex }: Props) {
         (styles, renderValidIcon) =>
           renderValidIcon && <AnimatedValidIcon style={styles} />
       )}
-      <div onChange={(e) => touchHandler()}>{subOptionArray}</div>
+      <div onChange={(e) => touchHandler()}>
+        <SubOptions
+          subOptions={option.subOptions}
+          optionName={`options.${optionIndex}.subOptions`}
+          inputType={inputOptions.inputType}
+          validator={validator}
+        />
+      </div>
     </OptionStyle>
   );
 }

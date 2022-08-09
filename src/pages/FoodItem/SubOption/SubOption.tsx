@@ -4,6 +4,7 @@ import { SubOption as SubOptionType } from "dummyData/dataTypes";
 import { LabelStyle } from "./Label.style";
 import numToPrice from "../../../utils/numToPrice";
 
+
 type Props = {
   subOption: SubOptionType;
   inputType: string;
@@ -18,6 +19,7 @@ export default function SubOption({
   validator,
 }: Props) {
   const { register } = useFormContext();
+
   return (
     <LabelStyle>
       <div>
