@@ -7,6 +7,7 @@ import { FoodItem } from "dummyData/dataTypes";
 import { HeaderStyle } from "./Header.style";
 import { FormStyle } from "./Form.style";
 import { CloseIcon } from "../../assets/svgs/index";
+import NotFound from "../404/index";
 import Summary from "./Summary/Summary";
 import Option from "./Option/Option";
 import SubmitSection from "./SubmitSection/SubmitSection";
@@ -24,61 +25,74 @@ type FormData = {
   finalPrice: number;
 };
 
+const priceReducer = (
+  state: {
+    optionPrices: number[];
+    totalPrice: number;
+    basePrice: number;
+  },
+  action: {
+    index: number;
+    amount: number;
+  }
+) => {
+  const newState = { ...state };
+  newState.optionPrices[action.index] = action.amount;
+  newState.totalPrice = newState.optionPrices.reduce(
+    (prev, optionPrice) => prev + optionPrice,
+    state.basePrice
+  );
+  return newState;
+};
+
 export default function FoodItemPage() {
-  //Get FoodItem Object
-  const { foodItemName } = useParams(); //gets the foodItemName from the URL
+  //gets the foodItemName from the URL
+  const { foodItemName } = useParams();
+
+  //get foodItem from database
   const foodItem = mockDatabase.find(
     (item) => _.kebabCase(item.name) === foodItemName
   ) as FoodItem;
-  useEffect(() => {
-    document.title = foodItem ? foodItem.name : "Not Found";
-  });
+  // if(foodItem === undefined) return <NotFound/>
+  //this doesn't work. Can't call hooks conditionally. What if my mockDatabase.find() fails?
+  document.title = foodItem.name;
 
-  //Create price state. Updates on every input change.
-  const initialPrices = {
-    optionPrices: foodItem.options.map((option) => 0),
+  const initialPriceState = {
+    optionPrices: foodItem.options.map(() => 0),
     totalPrice: foodItem.basePrice,
+    basePrice: foodItem.basePrice,
   };
-  const priceReducer = (
-    state: {
-      optionPrices: number[];
-      totalPrice: number;
-    },
-    action: {
-      index: number;
-      amount: number;
-    }
-  ) => {
-    const newState = { ...state };
-    newState.optionPrices[action.index] = action.amount;
-    newState.totalPrice = newState.optionPrices.reduce(
-      (prev, optionPrice) => prev + optionPrice,
-      foodItem.basePrice
-    );
-    return newState;
+
+  const initialFormState = {
+    name: foodItem.name,
+    options: foodItem.options.map((option) => {
+      return { name: option.name, subOptions: [] as string[] };
+    }),
+    quantity: 1,
+    finalPrice: foodItem.basePrice,
   };
-  const [priceState, dispatchPrice] = useReducer(priceReducer, initialPrices);
+
+  //Create price state. Updates on every input change in subOptions.
+  const [priceState, dispatchPrice] = useReducer(
+    priceReducer,
+    initialPriceState
+  );
   const [quantity, setQuantity] = useState(1);
 
   //Get react-hook-form methods
   const methods = useForm<FormData>({
-    defaultValues: {
-      name: foodItem.name,
-      options: foodItem.options.map((option) => {
-        return { name: option.name as string | "", subOptions: [] };
-      }),
-      quantity: 1,
-      finalPrice: foodItem.basePrice,
-    },
+    defaultValues: initialFormState,
   });
 
+  //set finalPrice of FormState
   methods.setValue("finalPrice", priceState.totalPrice * quantity);
 
-  console.log(methods.watch("options"));
+  //Submit form
   const onSubmit: SubmitHandler<FormData> = (data) => {
     console.log("Submitted\n");
     console.log(data);
   };
+  console.log(methods.watch("options"));
 
   return (
     <>
@@ -91,7 +105,7 @@ export default function FoodItemPage() {
 
       <FormProvider {...methods}>
         <FormStyle onSubmit={methods.handleSubmit(onSubmit)}>
-          <div className="inputs">
+          <div>
             <Summary
               foodItem={foodItem}
               showBorderBottom={foodItem.options.length !== 0}

@@ -76,6 +76,7 @@ export default function SubOptions({
     let subOptionFormValuesCopy: string[] =
       structuredClone(subOptionFormValues); // using destructuring is buggy {...subOptionFormValues}
 
+    //update local state, and form state
     if (e.target.checked && inputOptions.inputType === "radio") {
       field.onChange([`${e.target.value}`]);
       setSubOptionFormValues([e.target.value]);
@@ -93,7 +94,7 @@ export default function SubOptions({
 
     //touch handler
     setIsTouched(true);
-    trigger(`options.${optionIndex}.subOptions`);
+    trigger(`options.${optionIndex}.subOptions`); //trigger validation
   };
 
   return (
