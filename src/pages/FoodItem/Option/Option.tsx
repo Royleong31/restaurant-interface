@@ -3,13 +3,14 @@ import { useTransition } from "react-spring";
 import { useFormContext } from "react-hook-form";
 import { Option as OptionType } from "../../../dummyData/dataTypes";
 import { OptionHeaderStyle } from "./OptionHeader.style";
+import SubOptionsRadio from "../SubOption/SubOptions.radio";
+import SubOptionsCheckbox from "../SubOption/SubOptions.checkbox";
 import {
   OptionStyle,
   AnimatedInvalidIcon,
   AnimatedValidIcon,
   transitionOptions,
 } from "./Option.style";
-import SubOptions from "../SubOption/SubOptions";
 
 type Props = {
   option: OptionType;
@@ -21,7 +22,7 @@ type Props = {
 };
 
 export default function Option({ option, optionIndex, dispatchPrice }: Props) {
-  const [isTouched, setIsTouched] = useState(false); //the builtIn isTouched doesn't work for checkboxes. Require both onBlur AND onFocus to be true.
+  const [isTouched, setIsTouched] = useState(false);
   const {
     formState: { errors },
   } = useFormContext();
@@ -95,13 +96,25 @@ export default function Option({ option, optionIndex, dispatchPrice }: Props) {
           renderValidIcon && <AnimatedValidIcon style={styles} />
       )}
 
-      <SubOptions
-        option={option}
-        optionIndex={optionIndex}
-        inputOptions={inputOptions}
-        setIsTouched={setIsTouched}
-        dispatchPrice={dispatchPrice}
-      />
+      {inputOptions.inputType === "radio" ? (
+        <SubOptionsRadio
+          option={option}
+          optionIndex={optionIndex}
+          errorMessage={inputOptions.errorMessage}
+          setIsTouched={setIsTouched}
+          dispatchPrice={dispatchPrice}
+        />
+      ) : inputOptions.inputType === "checkbox" ? (
+        <SubOptionsCheckbox
+          option={option}
+          optionIndex={optionIndex}
+          errorMessage={inputOptions.errorMessage}
+          setIsTouched={setIsTouched}
+          dispatchPrice={dispatchPrice}
+        />
+      ) : (
+        <></>
+      )}
     </OptionStyle>
   );
 }

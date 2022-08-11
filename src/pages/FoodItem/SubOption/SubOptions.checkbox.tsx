@@ -7,11 +7,7 @@ import numToPrice from "../../../utils/numToPrice";
 type Props = {
   option: OptionType;
   optionIndex: number;
-  inputOptions: {
-    helperText: string;
-    errorMessage: string;
-    inputType: "radio" | "checkbox";
-  };
+  errorMessage: string;
   setIsTouched: (value: React.SetStateAction<boolean>) => void;
   dispatchPrice: React.Dispatch<{
     index: number;
@@ -19,31 +15,23 @@ type Props = {
   }>;
 };
 
-const validator = (
-  value: string | string[],
-  inputType: "radio" | "checkbox",
+const checkboxValidator = (
+  value: string[],
   min: number,
   max: number
 ): boolean => {
-  // console.log(value);
   if (value === null || value === undefined) return false;
-  if (inputType === "radio") {
-    //value will be string
-    return value.length > 0;
-  } else if (inputType === "checkbox") {
-    //value will be string[]
-    return value.length >= min && value.length <= max;
-  }
-  return false;
+  return value.length >= min && value.length <= max;
 };
 
-export default function SubOptions({
+export default function SubOptionsCheckbox({
   option,
-  inputOptions,
+  errorMessage,
   optionIndex,
   setIsTouched,
   dispatchPrice,
 }: Props) {
+  //set up react-form-hook
   const { control, trigger } = useFormContext();
   const { field } = useController({
     name: `options.${optionIndex}.subOptions`,
@@ -51,49 +39,49 @@ export default function SubOptions({
     rules: {
       validate: {
         validator: (value) =>
-          validator(
+          checkboxValidator(
             value,
-            inputOptions.inputType,
             option.restriction.min,
             option.restriction.max
-          ) || inputOptions.errorMessage,
+          ) || errorMessage,
       },
     },
   });
-  const [subOptionFormValues, setSubOptionFormValues] = useState<string[]>([]); //set up controlled input
+  const [selectedCheckboxes, setSelectedCheckboxes] = useState<string[]>([]); //set up controlled input
 
+  //update price on selectedCheckboxes change
   useEffect(() => {
     let optionPrice = 0;
-    subOptionFormValues.forEach((subOptionName) => {
+    selectedCheckboxes.forEach((subOptionName) => {
       optionPrice +=
         option.subOptions.find((subOption) => subOption.name === subOptionName)
           ?.price ?? 0;
     });
+
     dispatchPrice({ index: optionIndex, amount: optionPrice });
-  }, [dispatchPrice, option.subOptions, optionIndex, subOptionFormValues]);
+  }, [dispatchPrice, option.subOptions, optionIndex, selectedCheckboxes]);
 
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    let subOptionFormValuesCopy: string[] =
-      structuredClone(subOptionFormValues); // using destructuring is buggy {...subOptionFormValues}
+    //get copy of previousState
+    let selectedCheckboxesCopy: string[] = structuredClone(selectedCheckboxes);
 
-    //update local state, and form state
-    if (e.target.checked && inputOptions.inputType === "radio") {
-      field.onChange([`${e.target.value}`]);
-      setSubOptionFormValues([e.target.value]);
-    } else if (e.target.checked && inputOptions.inputType === "checkbox") {
-      subOptionFormValuesCopy.push(e.target.value);
-      field.onChange(subOptionFormValuesCopy);
-      setSubOptionFormValues(subOptionFormValuesCopy);
-    } else if (!e.target.checked) {
-      subOptionFormValuesCopy = subOptionFormValuesCopy.filter(
+    if (e.target.checked) {
+      //if checked, add to array, then update states.
+
+      selectedCheckboxesCopy.push(e.target.value);
+      field.onChange(selectedCheckboxesCopy);
+      setSelectedCheckboxes(selectedCheckboxesCopy);
+    } else {
+      //if unChecked, remove from array, then update states.
+
+      selectedCheckboxesCopy = selectedCheckboxesCopy.filter(
         (subOptionValue) => subOptionValue !== e.target.value
       );
-      field.onChange(subOptionFormValuesCopy);
-      setSubOptionFormValues(subOptionFormValuesCopy);
+      field.onChange(selectedCheckboxesCopy);
+      setSelectedCheckboxes(selectedCheckboxesCopy);
     }
 
-    //touch handler
-    setIsTouched(true);
+    setIsTouched(true); //update touchState
     trigger(`options.${optionIndex}.subOptions`); //trigger validation
   };
 
@@ -104,8 +92,8 @@ export default function SubOptions({
           <div>
             <input
               key={subOptionIndex}
-              checked={subOptionFormValues.includes(subOption.name)}
-              type={inputOptions.inputType}
+              checked={selectedCheckboxes.includes(subOption.name)}
+              type={"checkbox"}
               value={subOption.name}
               name={`options.${optionIndex}.subOptions`}
               onChange={(e) => changeHandler(e)}

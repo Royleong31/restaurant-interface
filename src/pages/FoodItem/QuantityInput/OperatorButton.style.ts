@@ -17,17 +17,17 @@ export const OperatorButton = styled.input<Props>`
   background-image: url(${(props) => props.$src});
   background-repeat: no-repeat;
   background-position: 50% 50%;
-  &::after {
-  }
+  filter: ${(props) =>
+    props.$disabled ? "opacity(0.5) grayscale(1)" : "none"};
 
   &:hover {
     cursor: ${(props) => (props.$disabled ? "default" : "pointer")};
     filter: ${(props) =>
-      props.$disabled ? "brightness(1)" : "brightness(0.95)"};
+      props.$disabled ? "opacity(0.5) grayscale(1)" : "brightness(0.95)"};
   }
   &:active {
     filter: ${(props) =>
-      props.$disabled ? "brightness(1)" : "brightness(0.9)"};
+      props.$disabled ? "opacity(0.5) grayscale(1)" : "brightness(0.9)"};
   }
 `;
 

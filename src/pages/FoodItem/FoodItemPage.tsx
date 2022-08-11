@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useReducer, useState } from "react";
 import _ from "lodash";
 import { useParams, Link } from "react-router-dom";
 import { SubmitHandler, useForm, FormProvider } from "react-hook-form";
@@ -7,7 +7,6 @@ import { FoodItem } from "dummyData/dataTypes";
 import { HeaderStyle } from "./Header.style";
 import { FormStyle } from "./Form.style";
 import { CloseIcon } from "../../assets/svgs/index";
-import NotFound from "../404/index";
 import Summary from "./Summary/Summary";
 import Option from "./Option/Option";
 import SubmitSection from "./SubmitSection/SubmitSection";
