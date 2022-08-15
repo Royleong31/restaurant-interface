@@ -1,9 +1,8 @@
-import React, { useReducer, useState } from "react";
+import React, { useState } from "react";
 import _ from "lodash";
 import { useParams, Link } from "react-router-dom";
 import { SubmitHandler, useForm, FormProvider } from "react-hook-form";
 import mockDatabase from "../../dummyData/mockDatabase";
-import { FoodItem } from "dummyData/dataTypes";
 import { HeaderStyle } from "./Header.style";
 import { FormStyle } from "./Form.style";
 import { CloseIcon } from "../../assets/svgs/index";
@@ -12,6 +11,7 @@ import Option from "./Option/Option";
 import SubmitSection from "./SubmitSection/SubmitSection";
 import { FooterStyle } from "./Footer.style";
 import QuantityInput from "./QuantityInput/QuantityInput";
+import NotFound from "pages/404";
 
 //Create form data for this foodItem
 type FormData = {
@@ -24,26 +24,6 @@ type FormData = {
   finalPrice: number;
 };
 
-const priceReducer = (
-  state: {
-    optionPrices: number[];
-    totalPrice: number;
-    basePrice: number;
-  },
-  action: {
-    index: number;
-    amount: number;
-  }
-) => {
-  const newState = { ...state };
-  newState.optionPrices[action.index] = action.amount;
-  newState.totalPrice = newState.optionPrices.reduce(
-    (prev, optionPrice) => prev + optionPrice,
-    state.basePrice
-  );
-  return newState;
-};
-
 export default function FoodItemPage() {
   //gets the foodItemName from the URL
   const { foodItemName } = useParams();
@@ -51,10 +31,14 @@ export default function FoodItemPage() {
   //get foodItem from database
   const foodItem = mockDatabase.find(
     (item) => _.kebabCase(item.name) === foodItemName
-  ) as FoodItem;
-  // if(foodItem === undefined) return <NotFound/>
-  //this doesn't work. Can't call hooks conditionally. What if my mockDatabase.find() fails?
-  document.title = foodItem.name;
+  ) ?? {
+    name: "",
+    description: "",
+    categories: [],
+    basePrice: 0,
+    img: "",
+    options: [],
+  };
 
   const initialPriceState = {
     optionPrices: foodItem.options.map(() => 0),
@@ -71,11 +55,14 @@ export default function FoodItemPage() {
     finalPrice: foodItem.basePrice,
   };
 
-  //Create price state. Updates on every input change in subOptions.
-  const [priceState, dispatchPrice] = useReducer(
-    priceReducer,
-    initialPriceState
-  );
+  //create priceState
+  const [priceNonReducerState, setPriceState] = useState<{
+    optionPrices: number[];
+    totalPrice: number;
+    basePrice: number;
+  }>(initialPriceState);
+
+  //create quantityState
   const [quantity, setQuantity] = useState(1);
 
   //Get react-hook-form methods
@@ -83,8 +70,11 @@ export default function FoodItemPage() {
     defaultValues: initialFormState,
   });
 
+  //Check if foodItem === undefined, return <NotFound/>
+  if (foodItem.name === "") return <NotFound />;
+
   //set finalPrice of FormState
-  methods.setValue("finalPrice", priceState.totalPrice * quantity);
+  // methods.setValue("finalPrice", priceNonReducerState.totalPrice * quantity); //not necessary?
 
   //Submit form
   const onSubmit: SubmitHandler<FormData> = (data) => {
@@ -115,7 +105,7 @@ export default function FoodItemPage() {
                   option={option}
                   key={optionIndex}
                   optionIndex={optionIndex}
-                  dispatchPrice={dispatchPrice}
+                  setPrice={setPriceState}
                 />
               );
             })}
@@ -124,7 +114,7 @@ export default function FoodItemPage() {
             {/* <QuantityInput quantity={quantity} onClick={setQuantity} /> */}
             <QuantityInput quantity={quantity} setQuantity={setQuantity} />
             <SubmitSection
-              totalPrice={priceState.totalPrice * quantity}
+              totalPrice={priceNonReducerState.totalPrice * quantity}
               isValid={methods.formState.isValid}
             />
           </FooterStyle>

@@ -3,16 +3,20 @@ import { useController, useFormContext } from "react-hook-form";
 import { Option as OptionType } from "dummyData/dataTypes";
 import { LabelStyle } from "./Label.style";
 import numToPrice from "../../../utils/numToPrice";
+import { SubOptionContent } from "./SubOptionContent.style";
 
 type Props = {
   option: OptionType;
   optionIndex: number;
   errorMessage: string;
   setIsTouched: (value: React.SetStateAction<boolean>) => void;
-  dispatchPrice: React.Dispatch<{
-    index: number;
-    amount: number;
-  }>;
+  setPrice: React.Dispatch<
+    React.SetStateAction<{
+      optionPrices: number[];
+      totalPrice: number;
+      basePrice: number;
+    }>
+  >;
 };
 
 const checkboxValidator = (
@@ -29,7 +33,7 @@ export default function SubOptionsCheckbox({
   errorMessage,
   optionIndex,
   setIsTouched,
-  dispatchPrice,
+  setPrice,
 }: Props) {
   //set up react-form-hook
   const { control, trigger } = useFormContext();
@@ -49,17 +53,36 @@ export default function SubOptionsCheckbox({
   });
   const [selectedCheckboxes, setSelectedCheckboxes] = useState<string[]>([]); //set up controlled input
 
-  //update price on selectedCheckboxes change
+  //update priceState on selectedCheckboxes change
   useEffect(() => {
-    let optionPrice = 0;
+    let newOptionPrice = 0;
     selectedCheckboxes.forEach((subOptionName) => {
-      optionPrice +=
+      newOptionPrice +=
         option.subOptions.find((subOption) => subOption.name === subOptionName)
           ?.price ?? 0;
     });
 
-    dispatchPrice({ index: optionIndex, amount: optionPrice });
-  }, [dispatchPrice, option.subOptions, optionIndex, selectedCheckboxes]);
+    setPrice((prevPriceState) => {
+      //get copy of optionPrices
+      const optionPricesCopy = prevPriceState.optionPrices.slice();
+
+      //update copy at index with newOptionPrice
+      optionPricesCopy[optionIndex] = newOptionPrice;
+
+      //calculate newTotalPrice
+      const newTotalPrice = optionPricesCopy.reduce(
+        (prevVal, currentVal) => prevVal + currentVal,
+        prevPriceState.basePrice
+      );
+
+      //update and return new priceState
+      return {
+        optionPrices: optionPricesCopy,
+        totalPrice: newTotalPrice,
+        basePrice: prevPriceState.basePrice,
+      };
+    });
+  }, [option.subOptions, optionIndex, selectedCheckboxes, setPrice]);
 
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>): void => {
     //get copy of previousState
@@ -89,7 +112,7 @@ export default function SubOptionsCheckbox({
     <>
       {option.subOptions.map((subOption, subOptionIndex) => (
         <LabelStyle key={subOptionIndex}>
-          <div>
+          <SubOptionContent>
             <input
               key={subOptionIndex}
               checked={selectedCheckboxes.includes(subOption.name)}
@@ -99,7 +122,7 @@ export default function SubOptionsCheckbox({
               onChange={(e) => changeHandler(e)}
             />
             <p>{subOption.name}</p>
-          </div>
+          </SubOptionContent>
           <span>{numToPrice(subOption.price)}</span>
         </LabelStyle>
       ))}

@@ -15,13 +15,16 @@ import {
 type Props = {
   option: OptionType;
   optionIndex: number;
-  dispatchPrice: React.Dispatch<{
-    index: number;
-    amount: number;
-  }>;
+  setPrice: React.Dispatch<
+    React.SetStateAction<{
+      optionPrices: number[];
+      totalPrice: number;
+      basePrice: number;
+    }>
+  >;
 };
 
-export default function Option({ option, optionIndex, dispatchPrice }: Props) {
+export default function Option({ option, optionIndex, setPrice }: Props) {
   const [isTouched, setIsTouched] = useState(false);
   const {
     formState: { errors },
@@ -102,7 +105,7 @@ export default function Option({ option, optionIndex, dispatchPrice }: Props) {
           optionIndex={optionIndex}
           errorMessage={inputOptions.errorMessage}
           setIsTouched={setIsTouched}
-          dispatchPrice={dispatchPrice}
+          setPrice={setPrice}
         />
       ) : inputOptions.inputType === "checkbox" ? (
         <SubOptionsCheckbox
@@ -110,7 +113,7 @@ export default function Option({ option, optionIndex, dispatchPrice }: Props) {
           optionIndex={optionIndex}
           errorMessage={inputOptions.errorMessage}
           setIsTouched={setIsTouched}
-          dispatchPrice={dispatchPrice}
+          setPrice={setPrice}
         />
       ) : (
         <></>

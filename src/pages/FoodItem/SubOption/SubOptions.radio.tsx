@@ -3,16 +3,20 @@ import { useController, useFormContext } from "react-hook-form";
 import { Option as OptionType } from "dummyData/dataTypes";
 import { LabelStyle } from "./Label.style";
 import numToPrice from "../../../utils/numToPrice";
+import { SubOptionContent } from "./SubOptionContent.style";
 
 type Props = {
   option: OptionType;
   optionIndex: number;
   errorMessage: string;
   setIsTouched: (value: React.SetStateAction<boolean>) => void;
-  dispatchPrice: React.Dispatch<{
-    index: number;
-    amount: number;
-  }>;
+  setPrice: React.Dispatch<
+    React.SetStateAction<{
+      optionPrices: number[];
+      totalPrice: number;
+      basePrice: number;
+    }>
+  >;
 };
 
 const radioValidator = (value: string): boolean => {
@@ -25,7 +29,7 @@ export default function SubOptionsRadio({
   errorMessage,
   optionIndex,
   setIsTouched,
-  dispatchPrice,
+  setPrice,
 }: Props) {
   //set up react-form-hook
   const { control, trigger } = useFormContext();
@@ -42,14 +46,34 @@ export default function SubOptionsRadio({
   //Since radio, optionPrice === subOptionPrice. Only one string, not string[].
   const [selectedRadio, setSelectedRadio] = useState<string>(""); //set up controlled input
 
-  //update price on localState change
+  //update priceState on localState change
   useEffect(() => {
-    const optionPrice =
+    //get new Option Price
+    const newOptionPrice =
       option.subOptions.find((subOption) => subOption.name === selectedRadio)
         ?.price ?? 0;
 
-    dispatchPrice({ index: optionIndex, amount: optionPrice });
-  }, [dispatchPrice, option.subOptions, optionIndex, selectedRadio]);
+    setPrice((prevPriceState) => {
+      //get copy of optionPrices
+      const optionPricesCopy = prevPriceState.optionPrices.slice();
+
+      //update copy at index with newOptionPrice
+      optionPricesCopy[optionIndex] = newOptionPrice;
+
+      //calculate newTotalPrice
+      const newTotalPrice = optionPricesCopy.reduce(
+        (prevVal, currentVal) => prevVal + currentVal,
+        prevPriceState.basePrice
+      );
+
+      //update and return new priceState
+      return {
+        optionPrices: optionPricesCopy,
+        totalPrice: newTotalPrice,
+        basePrice: prevPriceState.basePrice,
+      };
+    });
+  }, [option.subOptions, optionIndex, selectedRadio, setPrice]);
 
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setSelectedRadio(e.target.value); //update localState
@@ -63,7 +87,7 @@ export default function SubOptionsRadio({
     <>
       {option.subOptions.map((subOption, subOptionIndex) => (
         <LabelStyle key={subOptionIndex}>
-          <div>
+          <SubOptionContent>
             <input
               key={subOptionIndex}
               checked={selectedRadio === subOption.name}
@@ -73,7 +97,7 @@ export default function SubOptionsRadio({
               onChange={(e) => changeHandler(e)}
             />
             <p>{subOption.name}</p>
-          </div>
+          </SubOptionContent>
           <span>{numToPrice(subOption.price)}</span>
         </LabelStyle>
       ))}
