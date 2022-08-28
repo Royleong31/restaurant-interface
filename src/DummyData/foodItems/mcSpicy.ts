@@ -1,4 +1,4 @@
-import { Option, FoodItem } from "./DataTypes";
+import { Option, FoodItem } from "../dataTypes";
 
 const mcSpicySides: Option = {
   name: "Sides",
@@ -10,11 +10,11 @@ const mcSpicySides: Option = {
     {
       name: "Roasted Sesame & Seaweed McShaker Fries",
       available: true,
-      price: 0,
+      price: 1.2,
     },
     {
       name: "Large French Fries",
-      available: false,
+      available: true,
       price: 0,
     },
   ],
@@ -34,7 +34,7 @@ const mcSpicyDrinks: Option = {
     {
       name: "Coke Original Taste Less Sugar \nLarge",
       available: true,
-      price: 0.0,
+      price: 1.0,
     },
   ],
 };
@@ -42,7 +42,7 @@ const mcSpicyRemove: Option = {
   name: "Remove From McSpicy",
   restriction: {
     min: 0,
-    max: 3,
+    max: 2,
   },
   subOptions: [
     {
