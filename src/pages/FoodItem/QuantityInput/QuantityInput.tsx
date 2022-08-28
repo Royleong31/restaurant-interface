@@ -1,57 +1,61 @@
-import React from "react";
-import {
-  PlusButton,
-  MinusButton,
-  PlusIcon,
-  MinusIcon,
-} from "../../../assets/svgs";
+import React, { useState } from "react";
+import { useFormContext, useController } from "react-hook-form";
+import { OperatorButton } from "./OperatorButton.style";
+import QuantityIcon from "./QuantityIcon";
 import { QuantityInputStyle } from "./QuantityInput.style";
-import { animated, useSpring } from "react-spring";
-import { OperatorDiv } from "./OperatorDiv.style";
 
 type Props = {
   quantity: number;
-  onClick: React.Dispatch<React.SetStateAction<number>>;
+  setQuantity: React.Dispatch<React.SetStateAction<number>>;
 };
 
-export default React.memo(function QuantityInput({ quantity, onClick }: Props) {
-  const clickHandler = (action: string): void => {
+export default React.memo(function QuantityInput({
+  quantity,
+  setQuantity,
+}: Props) {
+  const [disableDecrement, setDisableDecrement] = useState(true);
+  const { control } = useFormContext();
+  const {
+    field: { onChange },
+  } = useController({
+    name: `quantity`,
+    control: control,
+  });
+
+  const clickHandler = (action: "increment" | "decrement"): void => {
     switch (action) {
       case "increment":
-        onClick(quantity + 1);
-        return;
+        if (quantity === 1) setDisableDecrement(false);
+        onChange(quantity + 1); //update form state
+        setQuantity(quantity + 1); //update local state
+        break;
       case "decrement":
-        if (quantity > 1) onClick(quantity - 1);
-        return;
-      default:
-        return;
+        if (quantity === 1) {
+          setDisableDecrement(true);
+          break;
+        } else if (quantity === 2) setDisableDecrement(true);
+        onChange(quantity - 1);
+        setQuantity(quantity - 1);
+        break;
     }
   };
 
-  const animateProps = useSpring({
-    from: { transform: "translateY(-0.3rem)", opacity: 0.8 },
-    to: { transform: "translateY(0)", opacity: 1 },
-    reset: true,
-    // delay: 200,
-    config: {
-      mass: 0.1,
-      tension: 52,
-      friction: 2,
-      velocity: 0.016,
-    },
-  });
-
   return (
-    <>
-      <QuantityInputStyle>
-        <OperatorDiv onClick={() => clickHandler("decrement")}>
-          <MinusIcon />
-        </OperatorDiv>
-        <animated.span style={animateProps}>{quantity}</animated.span>
-        <OperatorDiv onClick={() => clickHandler("increment")}>
-          <PlusIcon />
-        </OperatorDiv>
-      </QuantityInputStyle>
-    </>
+    <QuantityInputStyle>
+      <OperatorButton
+        onClick={() => clickHandler("decrement")}
+        type="button"
+        $disabled={disableDecrement}
+        $src="/svgs/MinusIcon.svg"
+      />
+
+      <QuantityIcon quantity={quantity} />
+
+      <OperatorButton
+        onClick={() => clickHandler("increment")}
+        type="button"
+        $src="/svgs/PlusIcon.svg"
+      />
+    </QuantityInputStyle>
   );
 });

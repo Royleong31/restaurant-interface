@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from "react";
-import _, { method } from "lodash";
+import React, { useState } from "react";
+import _ from "lodash";
 import { useParams, Link } from "react-router-dom";
 import { SubmitHandler, useForm, FormProvider } from "react-hook-form";
 import mockDatabase from "../../dummyData/mockDatabase";
-import { FoodItem } from "dummyData/dataTypes";
 import { HeaderStyle } from "./Header.style";
 import { FormStyle } from "./Form.style";
 import { CloseIcon } from "../../assets/svgs/index";
 import Summary from "./Summary/Summary";
 import Option from "./Option/Option";
-import QuantityInput from "./QuantityInput/QuantityInput";
 import SubmitSection from "./SubmitSection/SubmitSection";
 import { FooterStyle } from "./Footer.style";
+import QuantityInput from "./QuantityInput/QuantityInput";
+import NotFound from "pages/404";
 
 //Create form data for this foodItem
 type FormData = {
@@ -25,70 +25,63 @@ type FormData = {
 };
 
 export default function FoodItemPage() {
-  //Get FoodItem Object
-  const { foodItemName } = useParams(); //gets the foodItemName from the URL
+  //gets the foodItemName from the URL
+  const { foodItemName } = useParams();
+
+  //get foodItem from database
   const foodItem = mockDatabase.find(
     (item) => _.kebabCase(item.name) === foodItemName
-  ) as FoodItem;
-  useEffect(() => {
-    document.title = foodItem ? foodItem.name : "Not Found";
-  });
+  ) ?? {
+    name: "",
+    description: "",
+    categories: [],
+    basePrice: 0,
+    img: "",
+    options: [],
+  };
 
-  const [totalPrice, setTotalPrice] = useState(foodItem.basePrice);
+  const initialPriceState = {
+    optionPrices: foodItem.options.map(() => 0),
+    totalPrice: foodItem.basePrice,
+    basePrice: foodItem.basePrice,
+  };
+
+  const initialFormState = {
+    name: foodItem.name,
+    options: foodItem.options.map((option) => {
+      return { name: option.name, subOptions: [] as string[] };
+    }),
+    quantity: 1,
+    finalPrice: foodItem.basePrice,
+  };
+
+  //create priceState
+  const [priceNonReducerState, setPriceState] = useState<{
+    optionPrices: number[];
+    totalPrice: number;
+    basePrice: number;
+  }>(initialPriceState);
+
+  //create quantityState
   const [quantity, setQuantity] = useState(1);
 
   //Get react-hook-form methods
   const methods = useForm<FormData>({
-    defaultValues: {
-      name: foodItem.name,
-      options: foodItem.options.map((option) => {
-        return { name: option.name as string | "", subOptions: [] };
-      }),
-      quantity: 1,
-      finalPrice: foodItem.basePrice,
-    },
+    defaultValues: initialFormState,
   });
 
-  //update value of Total Price whenever form changes.
-  //issue if I directly use getValues('finalPrice')
-  const currentFormValues = methods.getValues("options");
-  const currentFormState = methods.getFieldState("options");
-  useEffect(() => {
-    let additionalCharge = 0;
-    foodItem.options.forEach((option, optionIndex) => {
-      const intersection = option.subOptions.filter((subOption) =>
-        currentFormValues[optionIndex].subOptions.includes(subOption.name)
-      );
-      option.subOptions.forEach((subOption) => {
-        if (intersection.includes(subOption))
-          additionalCharge += subOption.price;
-      });
-    });
-    const finalPrice = (foodItem.basePrice + additionalCharge) * quantity;
-    methods.setValue("quantity", quantity);
-    methods.setValue("finalPrice", finalPrice);
-    setTotalPrice(finalPrice);
-  }, [
-    foodItem,
-    setTotalPrice,
-    currentFormValues,
-    currentFormState,
-    methods,
-    quantity,
-  ]);
+  //Check if foodItem === undefined, return <NotFound/>
+  if (foodItem.name === "") return <NotFound />;
 
+  //set finalPrice of FormState
+  // methods.setValue("finalPrice", priceNonReducerState.totalPrice * quantity); //not necessary?
+
+  //Submit form
   const onSubmit: SubmitHandler<FormData> = (data) => {
     console.log("Submitted\n");
     console.log(data);
   };
-
-  const OptionsFC: JSX.Element[] = foodItem.options.map(
-    (option, optionIndex) => {
-      return (
-        <Option option={option} key={optionIndex} optionIndex={optionIndex} />
-      );
-    }
-  );
+  console.log(methods.watch("options"));
 
   return (
     <>
@@ -101,17 +94,27 @@ export default function FoodItemPage() {
 
       <FormProvider {...methods}>
         <FormStyle onSubmit={methods.handleSubmit(onSubmit)}>
-          <div className="inputs">
+          <div>
             <Summary
               foodItem={foodItem}
-              showBorderBottom={OptionsFC.length !== 0}
+              showBorderBottom={foodItem.options.length !== 0}
             />
-            {OptionsFC}
+            {foodItem.options.map((option, optionIndex) => {
+              return (
+                <Option
+                  option={option}
+                  key={optionIndex}
+                  optionIndex={optionIndex}
+                  setPrice={setPriceState}
+                />
+              );
+            })}
           </div>
           <FooterStyle>
-            <QuantityInput quantity={quantity} onClick={setQuantity} />
+            {/* <QuantityInput quantity={quantity} onClick={setQuantity} /> */}
+            <QuantityInput quantity={quantity} setQuantity={setQuantity} />
             <SubmitSection
-              totalPrice={totalPrice}
+              totalPrice={priceNonReducerState.totalPrice * quantity}
               isValid={methods.formState.isValid}
             />
           </FooterStyle>

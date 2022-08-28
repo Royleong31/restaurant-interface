@@ -9,8 +9,8 @@ export const SubmitSectionStyle = styled.div<props>`
   input {
     display: block;
     margin: 0.8125rem auto 1.25rem;
-    width: 92.3077%;
-    height: 3.1875rem;
+    width: 90.51282%;
+    height: 3.25rem;
     border-radius: 2.4375rem;
     border: none;
     background-color: #1c6dc9;

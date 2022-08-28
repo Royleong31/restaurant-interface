@@ -14,7 +14,7 @@ const mcSpicySides: Option = {
     },
     {
       name: "Large French Fries",
-      available: false,
+      available: true,
       price: 0,
     },
   ],
