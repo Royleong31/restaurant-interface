@@ -7,6 +7,8 @@ export const QuantityInputStyle = styled.div`
   gap: 1.5rem;
   padding: 1.5rem 0;
   border-bottom: solid 0.125rem #f7f7f7;
+  /* border-top: solid 0.5rem #f7f7f7; */
+  box-shadow: 0px -6px 16px rgba(0, 0, 0, 0.05);
   span {
     font-size: 1.25rem;
     font-weight: 500;

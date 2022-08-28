@@ -5,6 +5,9 @@ import { ValidIcon, InvalidIcon } from "assets/svgs";
 export const OptionStyle = styled.div`
   position: relative;
   border-bottom: solid 0.5rem #f7f7f7;
+  &:last-child {
+    border-bottom: unset;
+  }
 
   svg {
     display: inline;
