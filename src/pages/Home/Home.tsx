@@ -7,6 +7,7 @@ import Content from "./Content/Content";
 import Overlay from "components/Overlay";
 import MenuModal from "./Menu/MenuModal";
 import { HomeHeaderStyle } from "./HomeHeader.style";
+import ViewBasket from "./ViewBasket/ViewBasket";
 
 export type CategoryPosition = {
   name: string;
@@ -140,6 +141,7 @@ export default function Home() {
         />
       </HomeHeaderStyle>
       <Content ref={contentDivRef} />
+      <ViewBasket />
     </>
   );
 }
