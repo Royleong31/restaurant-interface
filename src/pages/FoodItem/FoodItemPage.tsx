@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import _ from "lodash";
 import { useParams, Link } from "react-router-dom";
 import { SubmitHandler, useForm, FormProvider } from "react-hook-form";
-import mockDatabase from "../../dummyData/mockDatabase";
+import mockDatabase from "../../DummyData/mockDatabase";
 import { HeaderStyle } from "./Header.style";
 import { FormStyle } from "./Form.style";
 import { CloseIcon } from "../../assets/svgs/index";

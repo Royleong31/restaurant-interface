@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useTransition } from "react-spring";
 import { useFormContext } from "react-hook-form";
-import { Option as OptionType } from "../../../dummyData/dataTypes";
+import { Option as OptionType } from "../../../DummyData/dataTypes";
 import { OptionHeaderStyle } from "./OptionHeader.style";
 import SubOptionsRadio from "../SubOption/SubOptions.radio";
 import SubOptionsCheckbox from "../SubOption/SubOptions.checkbox";

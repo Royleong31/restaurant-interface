@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useController, useFormContext } from "react-hook-form";
-import { Option as OptionType } from "dummyData/dataTypes";
+import { Option as OptionType } from "DummyData/dataTypes";
 import { LabelStyle } from "./Label.style";
 import numToPrice from "../../../utils/numToPrice";
 import { SubOptionContent } from "./SubOptionContent.style";

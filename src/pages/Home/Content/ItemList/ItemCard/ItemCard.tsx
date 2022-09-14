@@ -1,5 +1,5 @@
 import React from "react";
-import { FoodItem } from "dummyData/dataTypes";
+import { FoodItem } from "DummyData/dataTypes";
 import { LinkStyled } from "./Link.style";
 import numToPrice from "utils/numToPrice";
 import _ from "lodash";

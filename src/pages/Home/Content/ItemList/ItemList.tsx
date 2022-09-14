@@ -1,5 +1,5 @@
 import React from "react";
-import { FoodItem } from "../../../../dummyData/dataTypes";
+import { FoodItem } from "../../../../DummyData/dataTypes";
 import { ItemListStyle } from "./ItemList.style";
 import ItemCard from "./ItemCard/ItemCard";
 

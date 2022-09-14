@@ -1,4 +1,4 @@
-import { FoodItem } from "dummyData/dataTypes";
+import { FoodItem } from "DummyData/dataTypes";
 import React from "react";
 import { SummaryStyle } from "./Summary.style";
 import { SummaryHeaderStyle } from "./SummaryHeader.style";
